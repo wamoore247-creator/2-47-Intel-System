@@ -1,0 +1,1362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#04030c">
+<title>24/7 Intel Systems — Automation · Systems · Security · AI</title>
+<style>
+  :root{
+    --bg:#04030c; --bg2:#070a18; --card:#0e1430; --card2:#131b40;
+    --border:#1e2852; --border2:#2b376b;
+    --text:#f4f6ff; --muted:#9aa4c6; --dim:#68749a;
+    --violet:#fded02; --cyan:#05b2ff; --grad:linear-gradient(135deg,#fded02 0%,#fc6901 100%); --blue:#044df8;
+    --green:#05b2ff; --red:#f50230; --amber:#fc6901;
+    --r:16px; --r2:12px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.45;
+    padding-bottom:calc(76px + env(safe-area-inset-bottom));
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(253,237,2,.3);}
+  button{font-family:inherit;}
+  input,textarea,select{font-family:inherit; font-size:15px;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; gap:12px;
+    padding:14px 16px; padding-top:calc(14px + env(safe-area-inset-top));
+    background:rgba(4,3,12,.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .logo{width:40px;height:40px;flex:0 0 auto;border-radius:11px;box-shadow:0 4px 16px rgba(252,105,1,.4);}
+  .brand-txt{flex:1;min-width:0;}
+  .brand-txt h1{margin:0;font-size:16px;font-weight:800;letter-spacing:.3px;}
+  .brand-txt .sub{margin:0;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bell{position:relative;width:42px;height:42px;flex:0 0 auto;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .bell svg{width:20px;height:20px;}
+  .badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
+
+  /* ---------- layout ---------- */
+  main{max-width:640px;margin:0 auto;padding:16px 14px 24px;}
+  .view-title{font-size:20px;font-weight:800;margin:6px 0 14px;display:flex;align-items:center;gap:8px;}
+  .view-title .hint{font-size:12.5px;color:var(--muted);font-weight:500;}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:14px;}
+  .card h3{margin:0 0 4px;font-size:15px;font-weight:700;}
+  .card .lead{margin:0 0 12px;color:var(--muted);font-size:13px;}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--grad);border-radius:20px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;color:#04030c;}
+  .hero::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;background:rgba(255,255,255,.14);border-radius:50%;}
+  .hero::before{content:"";position:absolute;right:40px;bottom:-70px;width:150px;height:150px;background:rgba(255,255,255,.10);border-radius:50%;}
+  .hero .hello{font-size:13px;opacity:.9;margin:0 0 2px;}
+  .hero .big{margin:0;font-size:26px;font-weight:800;letter-spacing:-.3px;}
+  .hero .mrr{margin:8px 0 14px;font-size:13.5px;opacity:.95;}
+  .hero .mrr b{font-size:17px;}
+
+  /* ---------- KPI grid ---------- */
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:13px 14px;}
+  .kpi .ic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:8px;background:rgba(253,237,2,.16);}
+  .kpi.g .ic{background:rgba(5,178,255,.15);}
+  .kpi.a .ic{background:rgba(252,105,1,.18);}
+  .kpi.r .ic{background:rgba(245,2,48,.15);}
+  .kpi .v{font-size:21px;font-weight:800;letter-spacing:-.3px;}
+  .kpi .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:11px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:transform .06s ease,opacity .15s;}
+  .btn:active{transform:scale(.97);}
+  .btn.primary{background:var(--grad);color:#04030c;box-shadow:0 6px 18px rgba(252,105,1,.4);}
+  .btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--border2);}
+  .btn.danger{background:rgba(255,92,108,.14);color:var(--red);border:1px solid rgba(255,92,108,.3);}
+  .btn.block{width:100%;}
+  .btn.sm{padding:8px 12px;font-size:13px;border-radius:10px;}
+  .row{display:flex;gap:10px;}
+  .row .btn{flex:1;}
+
+  /* ---------- quick actions ---------- */
+  .qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+  .qa .q{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:13px 6px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;text-align:center;}
+  .qa .q .e{font-size:20px;}
+  .qa .q span{font-size:11px;color:var(--muted);font-weight:600;}
+
+  /* ---------- lists ---------- */
+  .item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+  .item:last-child{border-bottom:none;}
+  .avatar{width:42px;height:42px;border-radius:12px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;}
+  .item .mid{flex:1;min-width:0;}
+  .item .t{font-weight:700;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .item .s{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px;}
+  .chip.lead{background:rgba(252,105,1,.18);color:var(--amber);}
+  .chip.client{background:rgba(5,178,255,.15);color:var(--green);}
+  .chip.basic{background:rgba(0,210,255,.15);color:var(--cyan);}
+  .chip.pro{background:rgba(253,237,2,.18);color:var(--violet);}
+  .chip.full{background:rgba(255,176,32,.16);color:var(--amber);}
+  .chip.err{background:rgba(255,92,108,.15);color:var(--red);}
+  .chip.ok{background:rgba(5,178,255,.15);color:var(--green);}
+  .chip.paused{background:rgba(139,147,167,.18);color:var(--muted);}
+
+  /* ---------- search / filter ---------- */
+  .search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px 14px;color:var(--text);outline:none;}
+  .search::placeholder{color:var(--dim);}
+  .chips{display:flex;gap:8px;margin:12px 0;}
+  .chipbtn{background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+  .chipbtn.on{background:var(--grad);color:#04030c;border-color:transparent;}
+
+  /* ---------- packs grid ---------- */
+  .packs{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .pack{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;cursor:pointer;transition:border-color .15s;}
+  .pack:active{border-color:var(--violet);}
+  .pack .e{font-size:22px;}
+  .pack .t{font-weight:800;font-size:13.5px;margin:8px 0 3px;line-height:1.25;}
+  .pack .d{font-size:11.5px;color:var(--muted);line-height:1.35;margin-bottom:9px;}
+  .pack .meta{display:flex;align-items:center;justify-content:space-between;}
+
+  /* ---------- tabs ---------- */
+  .tabbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    display:flex;justify-content:space-around;
+    background:rgba(4,3,12,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-top:1px solid var(--border);
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  }
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--dim);cursor:pointer;font-size:10.5px;font-weight:700;}
+  .tab svg{width:23px;height:23px;}
+  .tab.on{color:var(--cyan);}
+  .tab.on svg{filter:drop-shadow(0 2px 8px rgba(0,210,255,.45));}
+
+  /* ---------- modal ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s;}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .sheet{background:var(--bg2);border:1px solid var(--border2);border-bottom:none;border-radius:22px 22px 0 0;width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;animation:up .22s cubic-bezier(.2,.9,.3,1);}
+  @keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+  .sheet .head{display:flex;align-items:center;gap:10px;padding:16px 18px 10px;}
+  .sheet .head .t{font-size:17px;font-weight:800;flex:1;}
+  .sheet .x{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .sheet .body{padding:4px 18px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;}
+  .grip{width:42px;height:4px;border-radius:2px;background:var(--border2);margin:8px auto 0;}
+
+  /* ---------- forms ---------- */
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .field input,.field select,.field textarea{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);outline:none;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
+  .field textarea{resize:vertical;min-height:84px;line-height:1.5;}
+
+  /* ---------- misc ---------- */
+  .divider{height:1px;background:var(--border);margin:14px 0;}
+  .kv{display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px;}
+  .kv .k{color:var(--muted);}
+  .kv .val{font-weight:700;text-align:right;}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;color:#c9d4e8;white-space:pre-wrap;word-break:break-word;line-height:1.55;max-height:240px;overflow:auto;}
+  .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#fded02;color:#04030c;padding:11px 18px;border-radius:20px;font-weight:700;font-size:13.5px;z-index:90;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:86vw;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+  .empty{text-align:center;color:var(--dim);padding:30px 10px;font-size:13.5px;}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0;}
+  .steps li{position:relative;padding:0 0 14px 38px;counter-increment:s;}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:9px;background:rgba(253,237,2,.16);color:var(--violet);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .steps li::after{content:"";position:absolute;left:12px;top:30px;bottom:2px;width:2px;background:var(--border);}
+  .steps li:last-child::after{display:none;}
+  .steps li .st{font-weight:700;font-size:13.5px;}
+  .steps li .sd{font-size:12.5px;color:var(--muted);margin-top:1px;}
+  .seg{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:3px;gap:3px;margin-bottom:14px;}
+  .seg button{flex:1;border:none;background:none;color:var(--muted);padding:8px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;}
+  .seg button.on{background:var(--card2);color:var(--text);border:1px solid var(--border2);}
+  .swatches{display:flex;gap:8px;}
+  .sw{width:26px;height:26px;border-radius:8px;border:1px solid rgba(255,255,255,.1);}
+  .notif{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+  .notif:last-child{border-bottom:none;}
+  .notif .dot{width:34px;height:34px;border-radius:10px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .notif .tx{flex:1;}
+  .notif .tt{font-size:13.5px;font-weight:600;}
+  .notif .tm{font-size:11.5px;color:var(--dim);margin-top:2px;}
+  .check{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--border2);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:transparent;font-size:13px;}
+  .check.on{background:var(--grad);border-color:transparent;color:#04030c;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" id="headerLogo"></div>
+  <div class="brand-txt">
+    <h1 id="headerName">24/7</h1>
+    <p class="sub" id="headerTag">Mobile Automation Agency</p>
+  </div>
+  <button class="bell" onclick="openNotifications()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+    <span class="badge" id="bellBadge" style="display:none">0</span>
+  </button>
+</header>
+
+<main id="app"></main>
+
+<nav class="tabbar" id="tabbar"></nav>
+<div class="toast" id="toast"></div>
+<div id="modalRoot"></div>
+
+<script>
+/* ============================================================
+   24/7 INTEL SYSTEMS — single-file business app
+   No external libraries. No network. Data persists in localStorage
+   (falls back to in-memory when storage is unavailable, e.g. preview).
+   ============================================================ */
+
+/* ---------------- utilities ---------------- */
+const $ = (id)=>document.getElementById(id);
+const esc = (s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = (n)=>'$'+Number(n||0).toLocaleString('en-US');
+const today = ()=>new Date().toISOString().slice(0,10);
+const first = (n)=>(n||'Client').trim().split(/\s+/)[0];
+const uid = (p)=>p+Math.random().toString(36).slice(2,8);
+const nowTime = ()=>{const d=new Date();return d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});};
+const avatarColor = (name)=>{
+  const cols=['#05b2ff','#044df8','#fc6901','#f50230','#8fabb4','#59333c','#0c2c6b','#00b8d9'];
+  let h=0; for(const ch of String(name)) h=(h*31+ch.charCodeAt(0))>>>0;
+  return cols[h%cols.length];
+};
+
+let toastT;
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function copyText(id){
+  const ta=$(id); if(!ta){toast('Nothing to copy');return;}
+  let ok=false;
+  try{
+    ta.focus(); ta.select(); ta.setSelectionRange(0,999999);
+    ok=document.execCommand('copy');
+  }catch(e){ ok=false; }
+  if(!ok){
+    try{ navigator.clipboard.writeText(ta.value); ok=true; }catch(e){ ok=false; }
+  }
+  toast(ok?'Copied to clipboard':'Select the text and copy manually');
+}
+
+/* ---------------- data ---------------- */
+const PACKS=[
+  {id:'daily-summary',name:'Daily Summary Automation',emoji:'📊',tier:'Pro',blurb:'One morning message that summarizes your client\u2019s whole day.',trigger:'Daily at 2:00 AM',
+   actions:['Pull today\u2019s calendar events','Pull unread messages','Pull open tasks','Pull recent notes','Compile into one message','Send via SMS / email'],
+   ios:['Open Shortcuts > Automation > Time of Day (2:00 AM)','Get Upcoming Events (calendar)','Get text of last unread messages','Append events + messages + tasks into one note','Send Message / Email to client'],
+   zapier:['Trigger: Schedule by Zapier (Daily, 2:00 AM)','Google Calendar \u2014 Find Events (today)','Gmail / SMS \u2014 gather items','Formatter \u2014 merge text','Send via Gmail or Twilio'],
+   tasker:['Profile: Time (02:00)','%DATE %TIME variables','Task: read calendar + notifications','Compose summary text','Action: Send SMS / Email']},
+  {id:'invoice',name:'Invoice Auto-Sender',emoji:'🧾',tier:'Pro',blurb:'Job marked done \u2192 invoice goes out and gets logged automatically.',trigger:'Job marked complete',
+   actions:['Generate invoice','Send via email / text','Log payment status in CRM','Queue a follow-up if unpaid'],
+   ios:['Shortcut receives \u201cJob Complete\u201d input','Create invoice from amount + client','Send email or iMessage with PDF/text invoice','Append to client note log'],
+   zapier:['Trigger: new row in job tracker / form','Generate invoice text (Formatter)','Send via Gmail / Twilio / Stripe','Log to Google Sheets CRM'],
+   tasker:['Trigger: task marked done','Read %AMOUNT %CLIENT variables','Compose invoice message','Send + log to file']},
+  {id:'lead-follow',name:'Lead Follow-Up Bot',emoji:'🤖',tier:'Basic',blurb:'New lead \u2192 welcome message, booked call, CRM entry, follow-up sequence.',trigger:'New lead captured',
+   actions:['Send welcome message','Schedule intro call','Add lead to CRM','Run 3-step follow-up sequence'],
+   ios:['Shortcut triggered on new contact/form','Send welcome text','Add to CRM note','Schedule 3 reminders (1, 3, 7 days)'],
+   zapier:['Trigger: new form submission','Send welcome (SMS/email)','Create CRM row','Delay + follow-up sequence'],
+   tasker:['Trigger: new SMS/email from unknown','Auto-reply welcome','Log contact','Schedule follow-ups']},
+  {id:'reminder',name:'Client Reminder System',emoji:'⏰',tier:'Basic',blurb:'Appointment reminders + confirmations, so nobody no-shows.',trigger:'Appointment date',
+   actions:['Send reminder (24h before)','Request confirmation','Update CRM with status'],
+   ios:['Automation: before each calendar event','Send reminder text','Wait for reply \u2192 confirm','Log status'],
+   zapier:['Trigger: calendar event starts','Send reminder','Ask to confirm (SMS)','Update CRM'],
+   tasker:['Profile: calendar event','Send SMS reminder','Confirm + log']},
+  {id:'scheduler',name:'Auto-Scheduler',emoji:'🗓️',tier:'Full',blurb:'Clients request a time \u2192 it checks availability, books, confirms.',trigger:'Client booking request',
+   actions:['Check availability','Schedule appointment','Send confirmation','Add to calendar'],
+   ios:['Shortcut: receive requested time','Check calendar conflicts','Create event','Send confirmation message'],
+   zapier:['Trigger: booking form / email','Check Google Calendar free/busy','Create event','Send confirmation'],
+   tasker:['Trigger: booking request','Check %CAL availability','Add event + confirm']},
+  {id:'crm',name:'Mobile CRM Lite',emoji:'👥',tier:'Full',blurb:'Every client gets a live profile: notes, automations, payments.',trigger:'New client added',
+   actions:['Create profile','Add notes','Attach automations','Track payments'],
+   ios:['Shortcut: new client form','Create contact','Append to notes','Log payment when received'],
+   zapier:['Trigger: new client form','Create row in CRM sheet','Tag automations','Log payments'],
+   tasker:['New client form \u2192 file','Log profile + notes','Track payments']},
+];
+
+const TIERS=[
+  {id:'basic',name:'Basic',price:49,color:'#05b2ff',includes:['2 automation packs','Lead Follow-Up Bot','Client Reminder System','Mobile CRM access','Email support']},
+  {id:'pro',name:'Pro',price:99,color:'#fded02',includes:['5 automation packs','Daily Summary Automation','Invoice Auto-Sender','Priority support','Custom triggers'],popular:true},
+  {id:'full',name:'Full Suite',price:199,color:'#fc6901',includes:['Everything in Pro','Auto-Scheduler','Advanced CRM Lite','Unlimited clients','Same-day setup']},
+];
+
+/*==NICHES_START==*/
+const NICHES=[
+{"cat":"Home & Field Services","niche":"Lawn care / landscaping","pain":"Quote follow-ups and rebooks get forgotten in season rush","opener":"Hey {name}! Just saw the lawn you finished over on {street} — that edging is clean. Quick one: how do you keep up with quote follow-ups mid-season?","pitch":"I set up a text automation for lawn crews that replies to every lead in under 2 minutes, sends the quote, and reminds customers when the next cut is due. You never lose a callback again.","cta":"Want me to send a 30-second screen recording of it running?","followup":"Hey — did you get a sec to check that out? Takes 2 minutes to set up and it's live the same day.","packs":"Lead follow-up, reminders, rebooking"},
+{"cat":"Home & Field Services","niche":"HVAC & plumbing","pain":"Unpaid service invoices and no-show appointments","opener":"Hey {name}! {business} has killer reviews. Do you still chase unpaid service invoices by hand?","pitch":"I automate the boring stuff for HVAC and plumbing shops — invoices that send themselves, appointment reminders that cut no-shows, and instant replies to new leads. Usually saves techs around 6 hours a week.","cta":"Can I drop a 30-second demo in your DMs?","followup":"Just checking in — want me to run a free audit of where your calls are leaking? Takes 10 minutes.","packs":"Invoice auto-sender, reminders, lead follow-up"},
+{"cat":"Home & Field Services","niche":"Cleaning services","pain":"No-shows, late payments, missed rebooks","opener":"Hey {name}! Your before and afters are fire. Quick one — do clients ever forget a clean or pay late?","pitch":"I set up automations for cleaning companies: appointment reminders (no-shows drop fast), auto-invoices, and a rebooking text after every clean.","cta":"Want a 30-second demo of what that looks like for {business}?","followup":"Hey! Sent you that demo — want me to customize it to your booking flow?","packs":"Reminders, invoice auto-sender, CRM"},
+{"cat":"Home & Field Services","niche":"Roofing & contractors","pain":"Leads from ads go cold before you call back","opener":"Hey {name}! Nice work on the {project} job. How fast do you follow up on a new estimate request — same day, or a few days?","pitch":"Most roofers lose 40% of leads to slow follow-up. I automate the whole thing: instant reply, estimate reminders, and a 5-touch follow-up until they say yes.","cta":"Want to see the exact 5-text follow-up sequence?","followup":"Hey — should I send the follow-up sequence over? It's what most of my contractor clients start with.","packs":"Lead follow-up, reminders"},
+{"cat":"Home & Field Services","niche":"Electricians","pain":"Scheduling and invoicing eat your evenings","opener":"Hey {name}! Do you handle your own scheduling and invoicing, or does it eat your evenings?","pitch":"I set up an automation that books the job, sends the reminder, and invoices when you mark it done — so you're not doing paperwork at 10pm.","cta":"Want me to show you the invoice part? It's the quickest win.","followup":"Hey — still happy to send that invoice automation over. Takes 5 minutes to set up.","packs":"Invoice auto-sender, auto-scheduler"},
+{"cat":"Home & Field Services","niche":"Car & mobile detailing","pain":"Repeat bookings slip through the cracks","opener":"Hey {name}! That ceramic coat work is insane. How do you keep track of rebooking everyone every few months?","pitch":"I automate the rebooking: a text goes out at the right time, the client picks a slot, your calendar updates. Repeat bookings on autopilot.","cta":"Want a demo of the rebooking text?","followup":"Hey — the rebooking flow demo is ready whenever you are.","packs":"Auto-scheduler, reminders, CRM"},
+{"cat":"Home & Field Services","niche":"Pest control","pain":"Quarterly route reminders and renewals","opener":"Hey {name}! Do you remind every customer before a quarterly visit, or just show up?","pitch":"I set up automations that text reminders before every visit and follow up on missed payments. Zero admin for you.","cta":"Want me to send a sample of the reminder your customers would get?","followup":"Hey — sent you that sample reminder. Want it live for your route list?","packs":"Reminders, invoice auto-sender"},
+{"cat":"Home & Field Services","niche":"Home inspectors","pain":"Slow report delivery, no agent follow-up","opener":"Hey {name}! How quickly do you get the inspection report out after a job?","pitch":"I can automate report delivery plus a follow-up to the agent asking for a referral. Inspectors who do this book noticeably more.","cta":"Want to see the agent follow-up message?","followup":"Hey — that agent follow-up script is ready. Want me to tailor it to your market?","packs":"Daily summary, lead follow-up"},
+{"cat":"Health, Beauty & Wellness","niche":"Hair salons & barbers","pain":"No-shows and empty chairs","opener":"Hey {name}! Your clientele looks loyal. How many no-shows do you get in a month?","pitch":"I automate reminders and rebooking texts for salons and barbers — no-shows drop, and empty slots fill from your waitlist automatically.","cta":"Want me to send the exact reminder text my salon clients use?","followup":"Hey — that reminder text gets people confirming in minutes. Want it for {business}?","packs":"Reminders, auto-scheduler"},
+{"cat":"Health, Beauty & Wellness","niche":"Nail, lash & brow studios","pain":"No-shows and chasing deposits","opener":"Hey {name}! Do you take deposits for appointments, or eat the no-shows?","pitch":"I set up an automation that sends reminders and collects a deposit link before the appointment. No-shows basically disappear.","cta":"Want a sample of the deposit reminder flow?","followup":"Hey — sent you that flow. Want to plug in your booking link?","packs":"Reminders, invoice auto-sender"},
+{"cat":"Health, Beauty & Wellness","niche":"Med spas & estheticians","pain":"Consultation requests missed during treatments","opener":"Hey {name}! Do you lose consultation requests when you're in a treatment all day?","pitch":"I automate intake and booking for med spas: instant replies to inquiries, appointment reminders, and follow-ups for rebooking treatment cycles.","cta":"Want a demo of the consultation follow-up?","followup":"Hey — that rebooking follow-up is the highest-ROI one. Want it live?","packs":"Lead follow-up, auto-scheduler"},
+{"cat":"Health, Beauty & Wellness","niche":"Personal trainers & gyms","pain":"Leads go cold, class no-shows","opener":"Hey {name}! How do you follow up with someone who DMs about training?","pitch":"I set up automations that reply instantly to new leads, book the intro session, and send class reminders plus renewal nudges.","cta":"Want to see the lead reply and booking flow?","followup":"Hey — should I send the flow over? It converts way better than a manual reply.","packs":"Lead follow-up, reminders"},
+{"cat":"Health, Beauty & Wellness","niche":"Chiropractors & physios","pain":"No-shows at $100+ a slot","opener":"Hey {name}! What's a no-show costing you — a hundred bucks a slot?","pitch":"I automate reminders and rebooking for clinics. Patients confirm by text, and your front desk stops chasing people.","cta":"Want a sample of the patient reminder?","followup":"Hey — that reminder cuts no-shows around 30%. Want it for your clinic?","packs":"Reminders, auto-scheduler"},
+{"cat":"Health, Beauty & Wellness","niche":"Dental & ortho clinics","pain":"Recall and empty hygiene slots","opener":"Hey {name}! How do you handle recall for patients overdue on cleanings?","pitch":"I automate recall and reminders for dental clinics — patients get nudged to rebook, and your hygiene schedule stays full.","cta":"Want to see the recall text sequence?","followup":"Hey — the recall sequence fills empty hygiene slots fast. Want me to send it?","packs":"Reminders, CRM"},
+{"cat":"Creative & Freelance","niche":"Photographers","pain":"Unpaid invoices and unanswered leads","opener":"Hey {name}! Your work is beautiful. Do you chase unpaid invoices or unanswered leads after shoots?","pitch":"I automate the back office for photographers: instant lead replies, contract and invoice sends, and shoot-day reminders.","cta":"Want a demo of the invoice and reminder combo?","followup":"Hey — should I send the invoice automation over? It's the fastest win.","packs":"Invoice auto-sender, lead follow-up"},
+{"cat":"Creative & Freelance","niche":"Videographers & editors","pain":"Deliveries drag on, invoices late","opener":"Hey {name}! Do you still send invoices and follow-ups manually after a delivery?","pitch":"I automate delivery and invoicing for videographers, including the any-revisions follow-up that gets projects closed out.","cta":"Want to see the delivery sequence?","followup":"Hey — that delivery sequence gets projects signed off faster. Want it?","packs":"Invoice auto-sender, daily summary"},
+{"cat":"Creative & Freelance","niche":"Social media managers & VAs","pain":"Weekly client reports take hours","opener":"Hey {name}! How long do you spend assembling client reports each week?","pitch":"I automate the weekly and monthly client report for social media managers — it pulls the metrics and sends a summary to each client automatically.","cta":"Want a sample of the client report they'd receive?","followup":"Hey — that report saves about 2 hours a week. Want me to build yours?","packs":"Daily summary, CRM"},
+{"cat":"Creative & Freelance","niche":"Real estate agents","pain":"Slow lead response loses listings","opener":"Hey {name}! How fast do you reply when a new lead comes in from Zillow?","pitch":"Speed wins listings. I automate instant replies and a nurture sequence for real estate leads, plus listing follow-ups.","cta":"Want to see the 5-touch nurture sequence?","followup":"Hey — that nurture sequence keeps leads warm for months. Want it?","packs":"Lead follow-up, daily summary"},
+{"cat":"Professional & B2B","niche":"Mortgage brokers & loan officers","pain":"Chasing documents by hand","opener":"Hey {name}! Do you chase clients for documents by hand?","pitch":"I automate the mortgage pipeline: doc request reminders, status updates, and post-close referral asks.","cta":"Want a sample of the doc-request reminder?","followup":"Hey — that reminder closes loans faster. Want it tailored to you?","packs":"Reminders, lead follow-up"},
+{"cat":"Professional & B2B","niche":"Lawyers & legal clinics","pain":"Consultations no-show","opener":"Hey {name}! Do consultations ever no-show on you?","pitch":"I automate legal intake, appointment reminders, and follow-ups. Consultations confirm by text and no-shows drop.","cta":"Want a sample of the consultation reminder?","followup":"Hey — sent you that reminder. Want it live for your intake?","packs":"Reminders, CRM"},
+{"cat":"Professional & B2B","niche":"Insurance agents","pain":"Quotes sent that never close","opener":"Hey {name}! How many quotes do you send that never close?","pitch":"I automate the quote follow-up and renewal reminders for insurance agents — more closed quotes, fewer missed renewals.","cta":"Want to see the quote follow-up sequence?","followup":"Hey — the quote follow-up is the money sequence. Want it?","packs":"Lead follow-up, reminders"},
+{"cat":"Professional & B2B","niche":"Accountants & bookkeepers","pain":"Chasing client documents monthly","opener":"Hey {name}! How much time do you spend chasing clients for their monthly documents?","pitch":"I automate doc reminders and monthly close nudges for accountants and bookkeepers — clients submit on time, you stop nagging.","cta":"Want a sample of the doc reminder your clients would get?","followup":"Hey — that reminder ends the chasing. Want it for your client list?","packs":"Reminders, CRM"},
+{"cat":"Professional & B2B","niche":"Coaches & consultants","pain":"Onboarding and payment follow-ups","opener":"Hey {name}! How do you onboard and remind clients between sessions?","pitch":"I automate client onboarding, session reminders, and payment follow-ups for coaches — you stay focused on coaching.","cta":"Want a demo of the onboarding sequence?","followup":"Hey — the onboarding sequence makes you look polished from day one. Want it?","packs":"Lead follow-up, invoice auto-sender"},
+{"cat":"Retail, Food & E-commerce","niche":"Restaurants & cafes","pain":"Reservation no-shows and few reviews","opener":"Hey {name}! Do reservations ever no-show on a busy Friday?","pitch":"I automate reservation reminders and post-visit review asks for restaurants — fewer no-shows, more five-star reviews.","cta":"Want a sample of the reservation reminder?","followup":"Hey — that reminder fills tables on busy nights. Want it?","packs":"Reminders, lead follow-up"},
+{"cat":"Retail, Food & E-commerce","niche":"Food trucks & caterers","pain":"Missed event bookings while working","opener":"Hey {name}! How do you handle event inquiries while you're working the truck?","pitch":"I automate event inquiry replies and deposit collection for food trucks and caterers — you never miss a booking.","cta":"Want a sample of the inquiry auto-reply?","followup":"Hey — that auto-reply books events while you cook. Want it?","packs":"Lead follow-up, invoice auto-sender"},
+{"cat":"Retail, Food & E-commerce","niche":"E-commerce & boutiques","pain":"Abandoned carts and one-time buyers","opener":"Hey {name}! Do you follow up on abandoned carts or just hope they come back?","pitch":"I automate abandoned-cart and post-purchase flows for shops — recovered carts and more repeat buyers.","cta":"Want to see the abandoned-cart text?","followup":"Hey — that cart text recovers real revenue. Want it plugged in?","packs":"Lead follow-up, daily summary"}
+];
+/*==NICHES_END==*/
+/*==UNIVERSAL_START==*/
+const UNIVERSAL=[
+{"name":"Universal cold DM (fill in the blanks)","body":"Hey {name}! I help {niche} owners stop {pain} using simple phone automations. Most of my clients save around {hours} hours a week. Worth a 10-minute chat?"},
+{"name":"Video proof hook","body":"Hey {name}! Not trying to pitch you today — but can I send a 30-second video of an automation running for a {niche} business like yours? If it's not useful, just delete it."},
+{"name":"Free audit offer","body":"Hey {name}! I do free 10-minute automation audits for {niche} businesses — I'll show you the 2 or 3 places you're leaking time or leads. Want me to run one for {business}?"},
+{"name":"Referral ask (after a win)","body":"Hey {name}! Glad it's saving you time. Know ONE other {niche} owner who'd love this? Send them my way and I'll knock $50 off your next month."}
+];
+/*==UNIVERSAL_END==*/
+/*==EMAILS_START==*/
+const EMAILS=[
+{"subject":"quick idea for {business}","body":"Hi {name} — saw {business} online. I set up simple automations (invoice sending, lead follow-ups, reminders) for {niche} businesses and most save 5+ hours a week. Open to a 10-minute call this week?"},
+{"subject":"your {pain} is costing you money","body":"Hi {name} — if {pain} at {business} is like most {niche} shops, it's costing you leads and time every week. I automate it for a flat monthly fee from $49. Worth a quick look?"},
+{"subject":"automation that pays for itself","body":"Hi {name} — the automation I install usually pays for itself on the first recovered invoice or saved no-show. Can I send a 30-second demo of it running?"}
+];
+/*==EMAILS_END==*/
+/*==OBJECTIONS_START==*/
+const OBJECTIONS=[
+{"name":"Too busy","body":"Totally get it. That's the whole point — this removes work, it doesn't add any. Setup takes me one day and you never touch it again. Want the demo video so you can watch it whenever?"},
+{"name":"Too expensive","body":"Fair. Most clients say it pays for itself after the first invoice or no-show it saves. Want to start with one pack at $49 and see the difference before going bigger?"},
+{"name":"Already have someone / a system","body":"Nice — most of my clients had someone or a half-working system too. The difference is I set it up in a day and it runs from your phone. Want me to do a free audit to see if anything's leaking?"},
+{"name":"Send me info","body":"Happy to. What's the best number or email? And while you have it, which of these would help most: invoices, follow-ups, reminders, or scheduling?"},
+{"name":"Not now","body":"No problem at all. I'll check back in a month. If anything changes, the door's open — and I'll send that 30-second demo now so you have it when you're ready."}
+];
+/*==OBJECTIONS_END==*/
+
+function defaultState(){
+  return {
+    settings:{
+      name:'24/7 Intel Systems', tag:'Automation · Systems · Security · AI', owner:'Wesley',
+      welcome:'Hey {name}! Thanks for joining 24/7 Intel Systems. I\u2019m setting up your automation pack now \u2014 you\u2019ll receive your workflow file shortly.',
+      delivery:'Your automation pack is ready, {name}. Install the attached workflow and follow the instructions. Message me if you need help.',
+      followup:'Just checking in, {name} \u2014 is your automation working smoothly? Want to add another workflow?',
+      onboardingDone:[0,1,2],
+      paymentLinks:{stripe:'https://buy.stripe.com/5kQbJ33Wh3Czcvi0DUfjG00',cashapp:'',paypal:''}
+    },
+    clients:[
+      {id:'c1',name:'Sarah Mitchell',business:'Mitchell Photography',type:'Photographer',email:'sarah@mitchellphoto.com',phone:'(740) 555-0114',needs:'Daily Summary + Invoice Auto-Sender',status:'client',plan:'pro',joined:'2026-06-12',source:'Referral',notes:[{t:'Loves the 2 AM summary format',d:'2026-08-02'}],payments:[{amount:99,date:'2026-09-01',method:'Stripe'},{amount:99,date:'2026-08-01',method:'Stripe'}]},
+      {id:'c2',name:'Derrick Okafor',business:'Okafor HVAC',type:'Contractor',email:'derrick@okaforhvac.com',phone:'(740) 555-0182',needs:'Lead Follow-Up + Reminders',status:'client',plan:'basic',joined:'2026-07-03',source:'Google Maps',notes:[],payments:[{amount:49,date:'2026-08-25',method:'Cash App'}]},
+      {id:'c3',name:'Priya Raman',business:'Raman Legal',type:'Law firm',email:'priya@ramanlegal.com',phone:'(740) 555-0121',needs:'Auto-Scheduler + CRM Lite',status:'client',plan:'full',joined:'2026-05-20',source:'LinkedIn',notes:[{t:'Wants scheduling linked to both attorneys\u2019 calendars',d:'2026-07-15'}],payments:[{amount:199,date:'2026-09-05',method:'PayPal'}]},
+      {id:'c4',name:'Lena Cruz',business:'Cruz Cleaning Co.',type:'Cleaning service',email:'lena@cruzclean.com',phone:'(740) 555-0166',needs:'Invoice + Reminders',status:'lead',plan:null,joined:'2026-09-10',source:'Instagram',notes:[],payments:[]}
+    ],
+    subscriptions:[
+      {id:'s1',clientId:'c1',plan:'pro',price:99,status:'active',next:'2026-10-01',method:'Stripe'},
+      {id:'s2',clientId:'c2',plan:'basic',price:49,status:'active',next:'2026-09-25',method:'Cash App'},
+      {id:'s3',clientId:'c3',plan:'full',price:199,status:'active',next:'2026-10-05',method:'PayPal'}
+    ],
+    automations:[
+      {id:'a1',clientId:'c1',packId:'daily-summary',status:'active',lastRun:'2026-09-12 02:00',runs:84},
+      {id:'a2',clientId:'c1',packId:'invoice',status:'active',lastRun:'2026-09-11 17:40',runs:31},
+      {id:'a3',clientId:'c2',packId:'lead-follow',status:'active',lastRun:'2026-09-12 09:15',runs:52},
+      {id:'a4',clientId:'c2',packId:'reminder',status:'error',lastRun:'2026-09-12 08:00',runs:40},
+      {id:'a5',clientId:'c3',packId:'scheduler',status:'active',lastRun:'2026-09-12 07:30',runs:66},
+      {id:'a6',clientId:'c3',packId:'crm',status:'paused',lastRun:'2026-09-09 12:00',runs:18}
+    ],
+    notifications:[
+      {id:'n1',kind:'err',icon:'⚠️',text:'Workflow error \u2014 Client Reminder (Okafor HVAC): missing appointment data.',time:'2h ago',read:false},
+      {id:'n2',kind:'rem',icon:'🔔',text:'Renewal in 13 days \u2014 Okafor HVAC (Basic, $49).',time:'5h ago',read:false},
+      {id:'n3',kind:'pay',icon:'💰',text:'Payment received \u2014 $199 from Priya Raman (PayPal).',time:'1d ago',read:true},
+      {id:'n4',kind:'ok',icon:'✅',text:'Daily summary delivered to Mitchell Photography.',time:'1d ago',read:true},
+      {id:'n5',kind:'lead',icon:'👋',text:'New lead added \u2014 Lena Cruz (Cruz Cleaning Co.).',time:'2d ago',read:true}
+    ],
+    tasks:[
+      {id:'t1',text:'Follow up with Lena Cruz (lead)',done:false},
+      {id:'t2',text:'Send September invoice to Mitchell Photography',done:false},
+      {id:'t3',text:'Fix Client Reminder error for Okafor HVAC',done:false},
+      {id:'t4',text:'Confirm Priya\u2019s Tuesday consult',done:true}
+    ],
+    events:[
+      {id:'e1',title:'Priya Raman \u2014 consult',day:'2026-09-12',time:'09:00'},
+      {id:'e2',title:'Okafor HVAC \u2014 site visit',day:'2026-09-12',time:'14:00'},
+      {id:'e3',title:'Mitchell Photography \u2014 shoot',day:'2026-09-13',time:'11:00'}
+    ],
+    summary:{text:'',date:null},
+    revenue:[]
+  };
+}
+
+let S=null;
+const LS_KEY='maa_mobile_os_v1';
+
+function load(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(raw){ const p=JSON.parse(raw); if(p&&p.settings){
+      if(p.settings.name==='MAA Mobile OS'){
+        p.settings.name='24/7 Intel Systems';
+        p.settings.tag='Automation · Systems · Security · AI';
+        p.settings.welcome=(p.settings.welcome||'').replace('MAA','24/7 Intel Systems');
+      }
+      if(!p.settings.paymentLinks) p.settings.paymentLinks={stripe:'https://buy.stripe.com/5kQbJ33Wh3Czcvi0DUfjG00',cashapp:'',paypal:''};
+      else if(!p.settings.paymentLinks.stripe) p.settings.paymentLinks.stripe='https://buy.stripe.com/5kQbJ33Wh3Czcvi0DUfjG00';
+      S=p; save(); return;
+    } }
+  }catch(e){}
+  S=defaultState(); save();
+}
+function save(){
+  try{ localStorage.setItem(LS_KEY,JSON.stringify(S)); }catch(e){}
+}
+
+/* ---------------- derived data ---------------- */
+function clientById(id){return S.clients.find(c=>c.id===id);}
+function packById(id){return PACKS.find(p=>p.id===id);}
+function planName(plan){const t=TIERS.find(x=>x.id===plan);return t?t.name:'—';}
+function mrr(){return S.subscriptions.filter(s=>s.status==='active').reduce((a,s)=>a+s.price,0);}
+function monthRevenue(){
+  const m=today().slice(0,7);
+  let sum=0;
+  for(const c of S.clients) for(const p of c.payments) if((p.date||'').slice(0,7)===m) sum+=p.amount;
+  return sum;
+}
+function openTasks(){return S.tasks.filter(t=>!t.done).length;}
+function unread(){return S.notifications.filter(n=>!n.read).length;}
+function activeAutos(){return S.automations.filter(a=>a.status==='active').length;}
+function errorAutos(){return S.automations.filter(a=>a.status==='error').length;}
+
+function pushNotif(kind,icon,text){
+  S.notifications.unshift({id:uid('n'),kind,icon,text,time:'just now',read:false});
+  if(S.notifications.length>50) S.notifications.length=50;
+  save();
+}
+function pushActivity(text){
+  S.revenue=[]; // placeholder kept for future; activity derived from notifications
+}
+
+/* ---------------- logo ---------------- */
+function logoSVG(size){
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fded02"/><stop offset="1" stop-color="#fc6901"/></linearGradient></defs>'
+    +'<rect x="2" y="2" width="44" height="44" rx="12" fill="url(#lg)"/>'
+    +'<path d="M27.5 7 13.5 27.5h7l-2.5 13.5 14-20.5h-7z" fill="#04030c"/></svg>';
+}
+
+/* ---------------- navigation ---------------- */
+const TABS=[
+  {id:'home',label:'Home',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M9.5 21v-6h5v6"/></svg>'},
+  {id:'clients',label:'Clients',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 20c0-3 2.5-5.4 5.5-5.4s5.5 2.4 5.5 5.4"/><path d="M16 4.8a3 3 0 0 1 0 5.6"/><path d="M17.8 14.7c2 .5 2.7 2.2 2.7 3.8"/></svg>'},
+  {id:'builder',label:'Builder',icon:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.4 2 4.8 13.7h5.3L9.4 22l8.6-11.7h-5.3L13.4 2z"/></svg>'},
+  {id:'billing',label:'Billing',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.6"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/></svg>'},
+  {id:'scripts',label:'Scripts',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>'},
+  {id:'more',label:'More',icon:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>'}
+];
+let tab='home';
+
+function render(){
+  $('headerName').textContent=S.settings.name;
+  $('headerTag').textContent=S.settings.tag;
+  $('headerLogo').innerHTML=logoSVG(40);
+  const b=$('bellBadge'); const u=unread();
+  b.style.display=u?'flex':'none'; b.textContent=u;
+  $('tabbar').innerHTML=TABS.map(t=>
+    '<button class="tab'+(tab===t.id?' on':'')+'" onclick="switchTab(\''+t.id+'\')">'+t.icon+'<span>'+t.label+'</span></button>'
+  ).join('');
+  if(tab==='home') renderHome();
+  else if(tab==='clients') renderClients();
+  else if(tab==='builder') renderBuilder();
+  else if(tab==='billing') renderBilling();
+  else if(tab==='scripts') renderScripts();
+  else if(tab==='more') renderMore();
+  window.scrollTo(0,0);
+}
+function switchTab(id){tab=id;render();}
+
+/* ---------------- HOME ---------------- */
+function renderHome(){
+  const d=new Date();
+  const dstr=d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});
+  const errs=errorAutos();
+  const sum=S.summary&&S.summary.text?S.summary:'';
+  const notifs=S.notifications.slice(0,4);
+  $('app').innerHTML=
+  '<div class="hero">'
+    +'<p class="hello">'+dstr+'</p>'
+    +'<h2 class="big">'+greeting()+', '+esc(S.settings.owner)+'</h2>'
+    +'<p class="mrr">Monthly recurring revenue &nbsp;<b>'+money(mrr())+'</b></p>'
+    +'<button class="btn primary block" onclick="generateSummary()">⚡ Generate daily summary</button>'
+  +'</div>'
+
+  +'<div class="kpis">'
+    +'<div class="kpi g"><div class="ic">🤝</div><div class="v">'+S.clients.filter(c=>c.status==='client').length+'</div><div class="l">Active clients</div></div>'
+    +'<div class="kpi"><div class="ic">⚙️</div><div class="v">'+activeAutos()+'</div><div class="l">Active automations</div></div>'
+    +'<div class="kpi"><div class="ic">💰</div><div class="v">'+money(mrr())+'</div><div class="l">MRR</div></div>'
+    +'<div class="kpi'+(errs?' r':' a')+'"><div class="ic">'+(errs?'🚨':'🔔')+'</div><div class="v">'+(errs||unread())+'</div><div class="l">'+(errs?'Errors':'Alerts')+'</div></div>'
+  +'</div>'
+
+  +'<div class="qa">'
+    +'<div class="q" onclick="openIntake()"><div class="e">➕</div><span>New client</span></div>'
+    +'<div class="q" onclick="switchTab(\'builder\')"><div class="e">🛠️</div><span>Build</span></div>'
+    +'<div class="q" onclick="generateSummary()"><div class="e">🧠</div><span>Summary</span></div>'
+    +'<div class="q" onclick="openInvoice()"><div class="e">🧾</div><span>Invoice</span></div>'
+  +'</div>'
+
+  +(sum?'<div class="card"><h3>🧠 AI daily summary</h3><p class="lead">Compiled from your phone \u2014 '+esc(S.summary.date||'')+'</p><div class="mono">'+esc(sum)+'</div><div style="margin-top:12px" class="row"><button class="btn ghost sm" onclick="generateSummary()">↻ Regenerate</button></div></div>':'<div class="card"><h3>🧠 AI daily summary</h3><p class="lead">No summary yet.</p><button class="btn ghost sm" onclick="generateSummary()">Generate now</button></div>')
+
+  +'<div class="card"><h3>📥 Notifications</h3><p class="lead">Reminders, follow-ups, alerts &amp; renewal notices.</p>'
+    +(notifs.length?notifs.map(n=>
+      '<div class="notif"><div class="dot" style="background:'+(n.kind==='err'?'rgba(245,2,48,.16)':n.kind==='pay'?'rgba(253,237,2,.2)':'rgba(5,178,255,.15)')+'">'+n.icon+'</div>'
+      +'<div class="tx"><div class="tt"'+(n.read?' style="color:var(--muted)"':'')+'>'+esc(n.text)+'</div><div class="tm">'+esc(n.time)+'</div></div></div>'
+    ).join(''):'<div class="empty">All clear 🎉</div>')
+    +'<div style="margin-top:12px"><button class="btn ghost sm block" onclick="openNotifications()">View all notifications</button></div>'
+  +'</div>'
+
+  +'<div class="card"><h3>✅ Today\u2019s tasks</h3><p class="lead">'+openTasks()+' open</p>'
+    +S.tasks.map(t=>
+      '<div class="item"><span class="check'+(t.done?' on':'')+'" onclick="toggleTask(\''+t.id+'\')">'+(t.done?'✓':'')+'</span>'
+      +'<div class="mid"><div class="t" style="'+(t.done?'text-decoration:line-through;color:var(--dim);':'')+'">'+esc(t.text)+'</div></div></div>'
+    ).join('')
+    +'<div style="margin-top:12px" class="row"><input class="search" id="newTask" placeholder="Add a task…"><button class="btn primary sm" onclick="addTask()">Add</button></div>'
+  +'</div>';
+}
+function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
+function toggleTask(id){const t=S.tasks.find(x=>x.id===id);if(t){t.done=!t.done;save();render();}}
+function addTask(){const i=$('newTask');const v=(i.value||'').trim();if(!v)return;S.tasks.unshift({id:uid('t'),text:v,done:false});save();render();}
+
+/* ---------------- AI summary engine ---------------- */
+function generateSummary(){
+  const todayStr=today();
+  const todays=S.events.filter(e=>e.day===todayStr);
+  const wk=todayStr.slice(0,7);
+  let pay=0; for(const c of S.clients) for(const p of c.payments) if((p.date||'').slice(0,7)===wk) pay+=p.amount;
+  const leadsWk=S.clients.filter(c=>c.status==='lead').length;
+  const open=S.tasks.filter(t=>!t.done).length;
+  const lines=[];
+  lines.push('MORNING SUMMARY \u2014 '+new Date().toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'}));
+  lines.push('');
+  lines.push('📅 Calendar: '+(todays.length?todays.map(e=>e.time+' '+e.title).join(' · '):'no appointments today'));
+  lines.push('💬 Messages: '+unread()+' unread alerts in your 24/7 inbox');
+  lines.push('✅ Tasks: '+open+' open \u2014 '+S.tasks.filter(t=>!t.done).map(t=>t.text).join('; '));
+  lines.push('📝 Notes: '+(S.clients.reduce((a,c)=>a+c.notes.length,0))+' total client notes on file');
+  lines.push('💰 Sales this month: '+money(pay)+' collected');
+  lines.push('👥 Pipeline: '+leadsWk+' open lead(s) to follow up on');
+  lines.push('⚙️ Automations: '+activeAutos()+' running, '+errorAutos()+' with errors');
+  const text=lines.join('\n');
+  S.summary={text,date:todayStr};
+  pushNotif('ok','✅','Daily summary generated and sent.');
+  save(); render(); toast('Summary generated');
+}
+
+/* ---------------- CLIENTS ---------------- */
+let clientFilter='all', clientQuery='';
+function renderClients(){
+  const q=clientQuery.toLowerCase();
+  let list=S.clients.filter(c=>
+    (clientFilter==='all'||c.status===clientFilter) &&
+    (!q||(c.name+' '+c.business+' '+c.email).toLowerCase().includes(q))
+  );
+  $('app').innerHTML=
+  '<div class="view-title">Clients <span class="hint">'+S.clients.length+' total</span></div>'
+  +'<input class="search" placeholder="Search name, business, email…" value="'+esc(clientQuery)+'" oninput="clientQuery=this.value;renderClients()">'
+  +'<div class="chips">'
+    +'<button class="chipbtn'+(clientFilter==='all'?' on':'')+'" onclick="setFilter(\'all\')">All</button>'
+    +'<button class="chipbtn'+(clientFilter==='lead'?' on':'')+'" onclick="setFilter(\'lead\')">Leads</button>'
+    +'<button class="chipbtn'+(clientFilter==='client'?' on':'')+'" onclick="setFilter(\'client\')">Clients</button>'
+  +'</div>'
+  +'<button class="btn primary block" onclick="openIntake()">➕ New client intake</button>'
+  +'<div style="margin-top:12px">'
+    +(list.length?list.map(c=>{
+      const sub=S.subscriptions.find(s=>s.clientId===c.id&&s.status==='active');
+      return '<div class="card" style="padding:12px 14px;cursor:pointer" onclick="openClient(\''+c.id+'\')">'
+        +'<div class="item" style="border:none;padding:0">'
+        +'<div class="avatar" style="background:'+avatarColor(c.name)+'">'+esc(first(c.name).charAt(0))+'</div>'
+        +'<div class="mid"><div class="t">'+esc(c.name)+'</div><div class="s">'+esc(c.business)+' · '+esc(c.type)+'</div></div>'
+        +'<div style="text-align:right"><span class="chip '+c.status+'">'+(c.status==='lead'?'Lead':'Client')+'</span>'
+        +'<div style="margin-top:5px;font-size:12px;color:var(--muted);font-weight:700">'+(sub?money(sub.price)+'/mo':c.plan?planName(c.plan):'Unpaid')+'</div></div>'
+        +'</div></div>';
+    }).join(''):'<div class="empty">No clients match.</div>')
+  +'</div>';
+}
+function setFilter(f){clientFilter=f;renderClients();}
+
+/* ---------------- client detail ---------------- */
+function openClient(id){
+  const c=clientById(id); if(!c)return;
+  const sub=S.subscriptions.find(s=>s.clientId===id&&s.status==='active');
+  const autos=S.automations.filter(a=>a.clientId===id);
+  openModal(
+    '<div class="head"><div class="avatar" style="background:'+avatarColor(c.name)+'">'+esc(first(c.name).charAt(0))+'</div><div class="t">'+esc(c.name)+'<div style="font-size:12.5px;color:var(--muted);font-weight:500">'+esc(c.business)+'</div></div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+
+    +'<div class="row" style="margin-bottom:14px">'
+      +'<span class="chip '+c.status+'">'+(c.status==='lead'?'Lead':'Client')+'</span>'
+      +(c.plan?'<span class="chip '+c.plan+'">'+planName(c.plan)+' '+money(sub?sub.price:(TIERS.find(t=>t.id===c.plan)||{}).price||0)+'/mo</span>':'<span class="chip lead">No plan</span>')
+      +'<span class="chip '+(sub?'ok':'paused')+'">'+(sub?'Billing active':'Not billed')+'</span>'
+    +'</div>'
+
+    +'<div class="card" style="background:var(--card2);margin-bottom:14px"><h3 style="font-size:13px;color:var(--muted)">CONTACT</h3>'
+      +'<div class="kv"><span class="k">Email</span><span class="val">'+esc(c.email)+'</span></div>'
+      +'<div class="kv"><span class="k">Phone</span><span class="val">'+esc(c.phone)+'</span></div>'
+      +'<div class="kv"><span class="k">Joined</span><span class="val">'+esc(c.joined)+'</span></div>'
+      +'<div class="kv"><span class="k">Source</span><span class="val">'+esc(c.source)+'</span></div>'
+      +'<div class="kv"><span class="k">Needs</span><span class="val">'+esc(c.needs)+'</span></div>'
+    +'</div>'
+
+    +'<div class="card"><h3>⚙️ Automations ('+autos.length+')</h3>'
+      +(autos.length?autos.map(a=>{
+        const p=packById(a.packId);
+        return '<div class="item"><div class="dot" style="background:rgba(5,178,255,.15)">'+(p?p.emoji:'⚙️')+'</div>'
+        +'<div class="mid"><div class="t">'+(p?p.name:a.packId)+'</div><div class="s">Last run '+esc(a.lastRun)+' · '+a.runs+' runs</div></div>'
+        +'<button class="btn sm '+(a.status==='active'?'ghost':'primary')+'" onclick="toggleAuto(\''+a.id+'\')">'+(a.status==='active'?'Pause':'Run')+'</button></div>';
+      }).join(''):'<div class="empty">No automations yet.</div>')
+      +'<div style="margin-top:10px"><button class="btn ghost sm block" onclick="closeModal();switchTab(\'builder\')">＋ Attach a workflow pack</button></div>'
+    +'</div>'
+
+    +'<div class="card"><h3>💳 Payments</h3>'
+      +(c.payments.length?c.payments.slice().reverse().map(p=>'<div class="item"><div class="dot" style="background:rgba(253,237,2,.2)">💰</div><div class="mid"><div class="t">'+money(p.amount)+'</div><div class="s">'+esc(p.date)+' · '+esc(p.method)+'</div></div></div>').join(''):'<div class="empty">No payments yet.</div>')
+      +'<div style="margin-top:10px" class="row"><input class="search" id="payAmt" type="number" placeholder="Amount">'
+      +'<select id="payMethod" style="background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:0 10px"><option>Stripe</option><option>Cash App</option><option>PayPal</option></select></div>'
+      +'<div style="margin-top:8px"><button class="btn primary sm block" onclick="addPayment(\''+c.id+'\')">Log payment</button></div>'
+    +'</div>'
+
+    +'<div class="card"><h3>📝 Notes</h3>'
+      +(c.notes.length?c.notes.map(n=>'<div class="item"><div class="mid"><div class="t" style="font-weight:500">'+esc(n.t)+'</div><div class="s">'+esc(n.d)+'</div></div></div>').join(''):'<div class="empty">No notes.</div>')
+      +'<div style="margin-top:10px"><input class="search" id="noteTxt" placeholder="Add a note…"><button class="btn ghost sm block" style="margin-top:8px" onclick="addNote(\''+c.id+'\')">Save note</button></div>'
+    +'</div>'
+
+    +'<div class="card"><h3>💬 Client scripts</h3><p class="lead">Tap to copy the personalized message.</p>'
+      +'<button class="btn ghost sm block" style="margin-bottom:8px" onclick="copyScript(\''+c.id+'\',\'welcome\')">📩 Copy welcome script</button>'
+      +'<button class="btn ghost sm block" style="margin-bottom:8px" onclick="copyScript(\''+c.id+'\',\'delivery\')">📦 Copy delivery script</button>'
+      +'<button class="btn ghost sm block" onclick="copyScript(\''+c.id+'\',\'followup\')">🔁 Copy follow-up script</button>'
+    +'</div>'
+
+    +'<div class="row">'
+      +'<button class="btn primary" onclick="upgradeClient(\''+c.id+'\')">'+(c.status==='lead'?'Convert to client':'Save changes')+'</button>'
+      +'<button class="btn danger" onclick="deleteClient(\''+c.id+'\')">Delete</button>'
+    +'</div>'
+
+    +'</div>'
+  );
+}
+function toggleAuto(id){const a=S.automations.find(x=>x.id===id);if(!a)return;
+  if(a.status==='active'){a.status='paused';pushNotif('rem','⏸️','Automation paused \u2014 '+a.packId);}
+  else{a.status='active';pushNotif('ok','✅','Automation running \u2014 '+a.packId);}
+  save(); openClient(a.clientId);
+}
+function addPayment(id){
+  const c=clientById(id); const amt=parseFloat($('payAmt').value||'0');
+  if(!amt||amt<=0){toast('Enter an amount');return;}
+  c.payments.push({amount:amt,date:today(),method:$('payMethod').value});
+  const sub=S.subscriptions.find(s=>s.clientId===id&&s.status==='active');
+  if(sub){const d=new Date(sub.next);d.setMonth(d.getMonth()+1);sub.next=d.toISOString().slice(0,10);}
+  pushNotif('pay','💰','Payment received \u2014 '+money(amt)+' from '+c.name+' ('+$('payMethod').value+').');
+  save(); openClient(id); toast('Payment logged');
+}
+function addNote(id){const c=clientById(id);const v=($('noteTxt').value||'').trim();if(!v)return;
+  c.notes.push({t:v,d:today()});save();openClient(id);
+}
+function copyScript(id,key){const c=clientById(id);
+  const raw=S.settings[key].replace(/\{name\}/g,first(c.name)).replace(/\{business\}/g,c.business);
+  copyRaw(raw);
+}
+function copyRaw(text){
+  const tmp=$('copyBuf');
+  tmp.value=text;
+  copyText('copyBuf');
+}
+function upgradeClient(id){const c=clientById(id);
+  if(c.status==='lead'){c.status='client';if(!c.plan)c.plan='basic';
+    S.subscriptions.push({id:uid('s'),clientId:id,plan:'basic',price:49,status:'active',next:(()=>{const d=new Date();d.setDate(d.getDate()+30);return d.toISOString().slice(0,10);})(),method:'Stripe'});
+    pushNotif('ok','🎉','New client \u2014 '+c.name+' on Basic ($49/mo).');
+  }
+  save(); closeModal(); render(); toast('Saved');
+}
+function deleteClient(id){
+  S.clients=S.clients.filter(c=>c.id!==id);
+  S.subscriptions=S.subscriptions.filter(s=>s.clientId!==id);
+  S.automations=S.automations.filter(a=>a.clientId!==id);
+  save(); closeModal(); render(); toast('Client deleted');
+}
+
+/* ---------------- intake ---------------- */
+function openIntake(){
+  openModal(
+    '<div class="head"><div class="t">New client intake</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<p class="lead" style="margin:0 0 14px;color:var(--muted);font-size:13px">Collect the essentials \u2014 the rest is automated.</p>'
+    +'<div class="field"><label>Full name</label><input id="fName" placeholder="Jane Doe"></div>'
+    +'<div class="field"><label>Business</label><input id="fBiz" placeholder="Doe Landscaping"></div>'
+    +'<div class="field"><label>Business type</label><input id="fType" placeholder="Contractor, salon, clinic…"></div>'
+    +'<div class="field"><label>Email</label><input id="fEmail" type="email" placeholder="jane@doeland.com"></div>'
+    +'<div class="field"><label>Phone</label><input id="fPhone" placeholder="(740) 555-0000"></div>'
+    +'<div class="field"><label>Automation needs</label><textarea id="fNeeds" placeholder="e.g. Invoice auto-sender + appointment reminders"></textarea></div>'
+    +'<div class="field"><label>Source</label><select id="fSource"><option>Referral</option><option>Website</option><option>Instagram</option><option>Google Maps</option><option>Facebook</option><option>Walk-in</option></select></div>'
+    +'<div class="field"><label>Starting plan</label><select id="fPlan"><option value="basic">Basic — $49/mo</option><option value="pro">Pro — $99/mo</option><option value="full">Full Suite — $199/mo</option><option value="">Trial / undecided</option></select></div>'
+    +'<button class="btn primary block" onclick="submitIntake()">Save lead</button>'
+    +'</div>'
+  );
+}
+function submitIntake(){
+  const name=($('fName').value||'').trim();
+  if(!name){toast('Name is required');return;}
+  const plan=$('fPlan').value;
+  const c={id:uid('c'),name,business:($('fBiz').value||'').trim()||'—',type:($('fType').value||'').trim()||'—',email:($('fEmail').value||'').trim(),phone:($('fPhone').value||'').trim(),needs:($('fNeeds').value||'').trim(),status:plan?'client':'lead',plan:plan||null,joined:today(),source:$('fSource').value,notes:[],payments:[]};
+  S.clients.push(c);
+  if(plan){
+    const price=TIERS.find(t=>t.id===plan).price;
+    S.subscriptions.push({id:uid('s'),clientId:c.id,plan,price,status:'active',next:(()=>{const d=new Date();d.setDate(d.getDate()+30);return d.toISOString().slice(0,10);})(),method:'Stripe'});
+    pushNotif('pay','💰','New subscriber \u2014 '+name+' on '+planName(plan)+' ('+money(price)+'/mo).');
+  } else {
+    pushNotif('lead','👋','New lead added \u2014 '+name+' ('+c.business+').');
+  }
+  save(); closeModal(); switchTab('clients'); toast(plan?'Client added':'Lead added');
+}
+
+/* ---------------- BUILDER ---------------- */
+function renderBuilder(){
+  $('app').innerHTML=
+  '<div class="view-title">Automation Builder <span class="hint">tap a pack</span></div>'
+  +'<p class="lead" style="margin:-6px 0 14px;color:var(--muted);font-size:13px">Build each automation with iOS Shortcuts, Zapier, IFTTT, or Tasker (Android) \u2014 then copy the recipe.</p>'
+  +'<div class="packs">'
+  +PACKS.map(p=>{
+    const t=TIERS.find(x=>x.id===p.tier);
+    return '<div class="pack" onclick="openPack(\''+p.id+'\')">'
+      +'<div class="e">'+p.emoji+'</div>'
+      +'<div class="t">'+esc(p.name)+'</div>'
+      +'<div class="d">'+esc(p.blurb)+'</div>'
+      +'<div class="meta"><span class="chip '+p.tier+'">'+esc(p.tier.toUpperCase())+'</span><span style="font-size:11px;color:var(--dim)">'+esc(p.trigger.split(' ').slice(0,2).join(' '))+'…</span></div>'
+    +'</div>';
+  }).join('')
+  +'</div>'
+  +'<div class="card" style="margin-top:14px"><h3>🔧 Custom build</h3><p class="lead">Pick a trigger, map your data, format the output \u2014 the builder writes the steps for you.</p><button class="btn primary block" onclick="openCustom()">Open builder wizard</button></div>';
+}
+
+let packTabIdx=0;
+function openPack(id){
+  const p=packById(id); if(!p)return;
+  const t=TIERS.find(x=>x.id===p.tier);
+  packTabIdx=0;
+  openModal(
+    '<div class="head"><div class="t">'+p.emoji+' '+esc(p.name)+'</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="row" style="margin-bottom:12px"><span class="chip '+p.tier+'">'+p.tier.toUpperCase()+' TIER</span><span class="chip ok">'+money(t.price)+'/mo plan</span></div>'
+    +'<p style="margin:0 0 14px;color:var(--muted);font-size:13.5px">'+esc(p.blurb)+'</p>'
+    +'<div class="card" style="background:var(--card2)"><h3 style="font-size:13px;color:var(--muted)">TRIGGER</h3><div style="font-weight:700">'+esc(p.trigger)+'</div>'
+    +'<div class="divider"></div><h3 style="font-size:13px;color:var(--muted)">ACTIONS</h3>'
+    +'<ol class="steps">'+p.actions.map(a=>'<li><div class="st">'+esc(a)+'</div></li>').join('')+'</ol></div>'
+    +'<div class="card"><h3 style="font-size:13px;color:var(--muted)">SETUP — PICK YOUR PLATFORM</h3>'
+    +'<div class="seg">'
+      +'<button class="'+(packTabIdx===0?'on':'')+'" onclick="packTabIdx=0;openPack(\''+p.id+'\')">🍎 iOS</button>'
+      +'<button class="'+(packTabIdx===1?'on':'')+'" onclick="packTabIdx=1;openPack(\''+p.id+'\')">⚡ Zapier</button>'
+      +'<button class="'+(packTabIdx===2?'on':'')+'" onclick="packTabIdx=2;openPack(\''+p.id+'\')">🤖 Tasker</button>'
+    +'</div>'
+    +'<ol class="steps">'+(packTabIdx===0?p.ios:packTabIdx===1?p.zapier:p.tasker).map(s=>'<li><div class="sd" style="font-size:13.5px;color:var(--text)">'+esc(s)+'</div></li>').join('')+'</ol>'
+    +'</div>'
+    +'<button class="btn primary block" onclick="generateRecipe(\''+p.id+'\')">⚙️ Generate my setup (copy-paste)</button>'
+    +'</div>'
+  );
+}
+
+function buildRecipe(packId,opts){
+  const p=packById(packId);
+  const client=opts.clientName||'[Client name]';
+  const t=TIERS.find(x=>x.id===p.tier);
+  const L=[];
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('  24/7 INTEL SYSTEMS · '+p.name.toUpperCase());
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('Client      : '+client);
+  L.push('Pack        : '+p.name+' ('+t.name+' tier)');
+  L.push('Trigger     : '+(opts.trigger||p.trigger));
+  L.push('Delivery    : '+(opts.delivery||'SMS / email'));
+  L.push('');
+  L.push('STEPS');
+  p.actions.forEach((a,i)=>L.push('  '+(i+1)+'. '+a));
+  L.push('');
+  L.push('CONFIG');
+  L.push('  enabled     : true');
+  L.push('  schedule    : '+(opts.schedule||'daily'));
+  L.push('  notify_on   : '+(opts.notifyOn||'success + error'));
+  L.push('  retry       : 3 attempts, 10 min apart');
+  L.push('');
+  L.push('NOTE');
+  L.push('  Install on '+(opts.platform||'iOS Shortcuts / Zapier / Tasker'));
+  L.push('  Then message your client: "Your pack is ready!"');
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  return L.join('\n');
+}
+function generateRecipe(id){
+  const p=packById(id);
+  const clients=S.clients.map(c=>'<option value="'+esc(c.name)+'">'+esc(c.name)+' ('+esc(c.business)+')</option>').join('');
+  openModal(
+    '<div class="head"><div class="t">'+p.emoji+' Generate setup</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="field"><label>Client</label><select id="rcClient">'+clients+'</select></div>'
+    +'<div class="field"><label>Trigger</label><input id="rcTrigger" value="'+esc(p.trigger)+'"></div>'
+    +'<div class="field"><label>Platform</label><select id="rcPlatform"><option>iOS Shortcuts</option><option>Zapier</option><option>IFTTT</option><option>Tasker (Android)</option></select></div>'
+    +'<div class="field"><label>Delivery</label><select id="rcDelivery"><option>SMS / email</option><option>Email only</option><option>SMS only</option><option>Slack / WhatsApp</option></select></div>'
+    +'<button class="btn primary block" onclick="renderRecipeOutput(\''+id+'\')">Generate</button>'
+    +'<div id="recipeOut" style="margin-top:12px"></div>'
+    +'</div>'
+  );
+}
+function renderRecipeOutput(id){
+  const opts={
+    clientName:$('rcClient').value,
+    trigger:$('rcTrigger').value,
+    platform:$('rcPlatform').value,
+    delivery:$('rcDelivery').value
+  };
+  const txt=buildRecipe(id,opts);
+  $('recipeOut').innerHTML='<div class="field"><label>Your workflow (copy-paste)</label><textarea id="recipeTa" class="mono" style="min-height:220px">'+esc(txt)+'</textarea></div>'
+    +'<div class="row"><button class="btn primary" onclick="copyText(\'recipeTa\')">📋 Copy</button><button class="btn ghost" onclick="generateRecipe(\''+id+'\')">↻ Edit</button></div>';
+}
+
+/* ---------------- custom builder wizard ---------------- */
+function openCustom(){
+  openModal(
+    '<div class="head"><div class="t">🔧 Custom automation</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="field"><label>1 · Name</label><input id="cuName" placeholder="e.g. Weekly report to team"></div>'
+    +'<div class="field"><label>2 · Trigger</label><select id="cuTrigger"><option>Time of day (daily)</option><option>New form / email</option><option>Calendar event</option><option>New payment received</option><option>Manual tap</option></select></div>'
+    +'<div class="field"><label>3 · Action 1</label><input id="cuA1" placeholder="e.g. Pull calendar events"></div>'
+    +'<div class="field"><label>4 · Action 2</label><input id="cuA2" placeholder="e.g. Compile into one message"></div>'
+    +'<div class="field"><label>5 · Output</label><input id="cuOut" placeholder="e.g. Send SMS to client"></div>'
+    +'<button class="btn primary block" onclick="renderCustomOut()">Generate recipe</button>'
+    +'<div id="cuOutWrap" style="margin-top:12px"></div>'
+    +'</div>'
+  );
+}
+function renderCustomOut(){
+  const name=($('cuName').value||'').trim()||'Custom automation';
+  const L=[];
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('  24/7 INTEL SYSTEMS · CUSTOM · '+name.toUpperCase());
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  L.push('Trigger : '+$('cuTrigger').value);
+  L.push('Step 1  : '+($('cuA1').value||'(none)'));
+  L.push('Step 2  : '+($('cuA2').value||'(none)'));
+  L.push('Output  : '+($('cuOut').value||'(none)'));
+  L.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  const txt=L.join('\n');
+  $('cuOutWrap').innerHTML='<div class="field"><label>Your workflow</label><textarea id="cuTa" class="mono" style="min-height:160px">'+esc(txt)+'</textarea></div>'
+    +'<button class="btn primary block" onclick="copyText(\'cuTa\')">📋 Copy recipe</button>';
+}
+
+/* ---------------- BILLING ---------------- */
+function payLinks(){
+  if(!S.settings.paymentLinks) S.settings.paymentLinks={stripe:'',cashapp:'',paypal:''};
+  return S.settings.paymentLinks;
+}
+function setPayLink(k,v){ payLinks()[k]=v; save(); }
+function copyPayLink(k){
+  const pl=payLinks();
+  if(k==='stripe'&&pl.stripe){copyRaw(pl.stripe);return;}
+  if(k==='cashapp'&&pl.cashapp){copyRaw(pl.cashapp);return;}
+  if(k==='paypal'&&pl.paypal){copyRaw(pl.paypal);return;}
+  toast('Paste the link above first');
+}
+function renderBilling(){
+  const subs=S.subscriptions;
+  $('app').innerHTML=
+  '<div class="view-title">Billing</div>'
+  +'<div class="kpis">'
+    +'<div class="kpi"><div class="ic">💰</div><div class="v">'+money(mrr())+'</div><div class="l">MRR</div></div>'
+    +'<div class="kpi g"><div class="ic">📈</div><div class="v">'+money(monthRevenue())+'</div><div class="l">This month</div></div>'
+    +'<div class="kpi"><div class="ic">🔁</div><div class="v">'+subs.filter(s=>s.status==='active').length+'</div><div class="l">Active subs</div></div>'
+    +'<div class="kpi a"><div class="ic">⏳</div><div class="v">'+upcomingRenewals().length+'</div><div class="l">Renewals ≤14d</div></div>'
+  +'</div>'
+
+  +'<div class="card"><h3>💳 Payment links</h3><p class="lead">Paste your real links once — they\u2019re saved and used in every invoice.</p>'
+    +'<div class="field"><label>Stripe payment link</label><input id="plStripe" placeholder="https://buy.stripe.com/…" value="'+esc(payLinks().stripe)+'" oninput="setPayLink(\'stripe\',this.value)"></div>'
+    +'<div class="field"><label>Cash App tag</label><input id="plCash" placeholder="https://cash.app/$YourCashtag" value="'+esc(payLinks().cashapp)+'" oninput="setPayLink(\'cashapp\',this.value)"></div>'
+    +'<div class="field"><label>PayPal link</label><input id="plPaypal" placeholder="https://paypal.me/YourName" value="'+esc(payLinks().paypal)+'" oninput="setPayLink(\'paypal\',this.value)"></div>'
+    +'<div class="row">'
+      +'<button class="btn ghost sm" style="flex:1" onclick="copyPayLink(\'stripe\')">📋 Stripe</button>'
+      +'<button class="btn ghost sm" style="flex:1" onclick="copyPayLink(\'cashapp\')">📋 Cash App</button>'
+      +'<button class="btn ghost sm" style="flex:1" onclick="copyPayLink(\'paypal\')">📋 PayPal</button>'
+    +'</div>'
+  +'</div>'
+
+  +'<div class="card"><h3>📦 Subscriptions</h3>'
+    +(subs.length?subs.map(s=>{
+      const c=clientById(s.clientId);
+      return '<div class="item"><div class="avatar" style="background:'+avatarColor(c?c.name:'')+'">'+(c?esc(first(c.name).charAt(0)):'?')+'</div>'
+      +'<div class="mid"><div class="t">'+(c?esc(c.name):'—')+'</div><div class="s">'+planName(s.plan)+' · '+money(s.price)+'/mo · next '+esc(s.next)+'</div></div>'
+      +'<div style="text-align:right"><span class="chip '+(s.status==='active'?'ok':'paused')+'">'+s.status+'</span><div style="font-size:11px;color:var(--dim);margin-top:3px">'+esc(s.method)+'</div></div></div>';
+    }).join(''):'<div class="empty">No subscriptions yet.</div>')
+  +'</div>'
+
+  +'<div class="card"><h3>🧾 Invoicing</h3><p class="lead">Generate an invoice you can text or email in seconds.</p>'
+    +'<button class="btn primary block" onclick="openInvoice()">＋ New invoice</button>'
+  +'</div>';
+}
+function upcomingRenewals(){
+  const cutoff=new Date(); cutoff.setDate(cutoff.getDate()+14);
+  return S.subscriptions.filter(s=>s.status==='active'&&s.next&&new Date(s.next)<=cutoff);
+}
+
+/* ---------------- invoice ---------------- */
+function openInvoice(){
+  const opts=S.clients.map(c=>'<option value="'+c.id+'">'+esc(c.name)+' — '+esc(c.business)+'</option>').join('');
+  openModal(
+    '<div class="head"><div class="t">🧾 New invoice</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="field"><label>Client</label><select id="invClient">'+opts+'</select></div>'
+    +'<div class="field"><label>Service</label><input id="invService" value="Automation pack — monthly"></div>'
+    +'<div class="field"><label>Amount ($)</label><input id="invAmt" type="number" value="99"></div>'
+    +'<button class="btn primary block" onclick="renderInvoice()">Generate invoice</button>'
+    +'<div id="invWrap" style="margin-top:12px"></div>'
+    +'</div>'
+  );
+}
+function renderInvoice(){
+  const c=clientById($('invClient').value); if(!c)return;
+  const amt=parseFloat($('invAmt').value||'0');
+  const num='INV-'+Math.floor(1000+Math.random()*9000);
+  const L=[];
+  L.push(S.settings.name.toUpperCase());
+  L.push(S.settings.tag);
+  L.push('──────────────────────────');
+  L.push('INVOICE '+num);
+  L.push('Date   : '+today());
+  L.push('Billed : '+c.name+' — '+c.business);
+  L.push('Email  : '+c.email);
+  L.push('──────────────────────────');
+  L.push($('invService').value);
+  L.push('Amount : '+money(amt));
+  L.push('Status : Due on receipt');
+  L.push('Pay    : '+(payLinks().stripe||'(add your Stripe link in Billing)'));
+  L.push('──────────────────────────');
+  L.push('Thank you, '+first(c.name)+'!');
+  const txt=L.join('\n');
+  $('invWrap').innerHTML='<div class="field"><label>Invoice text (copy-paste)</label><textarea id="invTa" class="mono" style="min-height:200px">'+esc(txt)+'</textarea></div>'
+    +'<button class="btn primary block" onclick="copyText(\'invTa\')">📋 Copy invoice</button>';
+}
+
+/* ---------------- MORE / settings ---------------- */
+function renderMore(){
+  const s=S.settings;
+  $('app').innerHTML=
+  '<div class="view-title">More</div>'
+
+  +'<div class="card"><div style="display:flex;gap:14px;align-items:center">'
+    +'<div style="width:56px;height:56px">'+logoSVG(56)+'</div>'
+    +'<div><h3 style="font-size:18px;margin:0">'+esc(s.name)+'</h3><p class="lead" style="margin:2px 0 8px">'+esc(s.tag)+'</p>'
+    +'<div class="swatches"><div class="sw" style="background:#fded02"></div><div class="sw" style="background:#fc6901"></div><div class="sw" style="background:#05b2ff"></div><div class="sw" style="background:#f50230"></div></div></div>'
+  +'</div>'
+    +'<div class="divider"></div>'
+    +'<div class="kv"><span class="k">Owner</span><span class="val">'+esc(s.owner)+'</span></div>'
+    +'<div class="kv"><span class="k">Stack</span><span class="val">iOS Shortcuts · Zapier · IFTTT · Tasker</span></div>'
+    +'<div class="kv"><span class="k">Runs from</span><span class="val">📱 Phone only</span></div>'
+  +'</div>'
+
+  +'<div class="card"><h3>💬 Client scripts</h3><p class="lead">Editable templates. Use {'+'{name}'+'} and {'+'{business}'+'} as placeholders.</p>'
+    +'<div class="field"><label>Welcome script</label><textarea id="scrWelcome" oninput="S.settings.welcome=this.value;save()">'+esc(s.welcome)+'</textarea></div>'
+    +'<div class="field"><label>Delivery script</label><textarea id="scrDelivery" oninput="S.settings.delivery=this.value;save()">'+esc(s.delivery)+'</textarea></div>'
+    +'<div class="field"><label>Follow-up script</label><textarea id="scrFollowup" oninput="S.settings.followup=this.value;save()">'+esc(s.followup)+'</textarea></div>'
+    +'<p class="lead" style="margin:0;font-size:12px">Changes save automatically.</p>'
+  +'</div>'
+
+  +'<div class="card"><h3>💲 Pricing</h3>'
+    +TIERS.map(t=>'<div class="item"><div class="mid"><div class="t">'+t.name+(t.popular?' <span style="font-size:10px;color:var(--cyan)">★ POPULAR</span>':'')+'</div><div class="s">'+t.includes.slice(0,2).join(' · ')+'…</div></div><div style="font-weight:800;color:'+t.color+'">'+money(t.price)+'/mo</div></div>').join('')
+  +'</div>'
+
+  +'<div class="card"><h3>🧭 Onboarding</h3><p class="lead">Launch checklist for every new client.</p>'
+    +'<ol class="steps">'
+    +['Intake form — collect name, business, email, phone, needs',
+      'Payment — send subscription link (Basic $49 / Pro $99 / Full $199)',
+      'Build workflow — use the Automation Builder',
+      'Deliver workflow pack — send via email/text with instructions',
+      'Activate subscription + add to CRM'
+    ].map((st,i)=>'<li><div class="st" style="cursor:pointer" onclick="toggleOnboard('+i+')">'+(s.onboardingDone.includes(i)?'✅ ':'☐ ')+esc(st)+'</div></li>').join('')
+    +'</ol>'
+  +'</div>'
+
+  +'<div class="card"><h3>📄 Export & backup</h3><p class="lead">Your whole business as a PDF or a backup file.</p>'
+    +'<div class="row">'
+      +'<button class="btn primary" style="flex:1" onclick="downloadPDF()">⬇️ PDF</button>'
+      +'<button class="btn ghost" style="flex:1" onclick="printPDF()">🖨️ Print</button>'
+    +'</div>'
+    +'<div class="row" style="margin-top:10px">'
+      +'<button class="btn ghost" style="flex:1" onclick="exportJSON()">💾 Backup data</button>'
+      +'<button class="btn ghost" style="flex:1" onclick="importJSON()">📂 Restore</button>'
+    +'</div>'
+    +'<div class="row" style="margin-top:10px">'
+      +'<a class="btn ghost" style="flex:1;text-decoration:none" href="landing.html">🌐 Open landing page</a>'
+    +'</div>'
+    +'<p class="lead" style="margin:10px 0 0;font-size:12px">Back up your data (JSON) and restore it on any device — don\'t trust one phone to keep your business. On iPhone, "Print" → Save to Files is the most reliable PDF export.</p>'
+  +'</div>'
+
+  +'<div class="card"><h3>ℹ️ About</h3><p class="lead" style="margin:0">24/7 Intel Systems — Automation Division. The Mobile OS runs 100% from your phone. Data stays in your browser (localStorage). This single file is the entire app — no servers, no signup. Pair it with iOS Shortcuts / Zapier / IFTTT / Tasker to run the actual automations.</p></div>'
+
+  +'<button class="btn danger block" onclick="resetAll()">Reset all data</button>';
+}
+function toggleOnboard(i){
+  const arr=S.settings.onboardingDone;
+  const idx=arr.indexOf(i);
+  if(idx>=0)arr.splice(idx,1);else arr.push(i);
+  save();render();
+}
+function resetAll(){
+  if(confirm('Reset all data to the starter demo?')){S=defaultState();save();render();toast('Reset complete');}
+}
+
+/* ---------------- notifications ---------------- */
+function openNotifications(){
+  openModal(
+    '<div class="head"><div class="t">📥 Notifications</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="row" style="margin-bottom:12px"><button class="btn ghost sm" onclick="markAllRead()">Mark all read</button>'
+    +'<button class="btn ghost sm" onclick="addReminder()">＋ Set reminder</button></div>'
+    +(S.notifications.length?S.notifications.map(n=>
+      '<div class="notif"><div class="dot" style="background:'+(n.kind==='err'?'rgba(245,2,48,.16)':n.kind==='pay'?'rgba(253,237,2,.2)':'rgba(5,178,255,.15)')+'">'+n.icon+'</div>'
+      +'<div class="tx"><div class="tt"'+(n.read?' style="color:var(--muted)"':'')+'>'+esc(n.text)+'</div><div class="tm">'+esc(n.time)+'</div></div></div>'
+    ).join(''):'<div class="empty">No notifications.</div>')
+    +'</div>'
+  );
+}
+function markAllRead(){S.notifications.forEach(n=>n.read=true);save();openNotifications();render();}
+function addReminder(){
+  const msg=prompt('Reminder text:');
+  if(msg){pushNotif('rem','🔔',msg.trim()||'Reminder');save();openNotifications();render();toast('Reminder set');}
+}
+
+/* ---------------- modal plumbing ---------------- */
+function openModal(html){
+  $('modalRoot').innerHTML='<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="sheet"><div class="grip"></div>'+html+'</div></div>';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){$('modalRoot').innerHTML='';document.body.style.overflow='';}
+
+/* ---------------- OUTBOUND SCRIPTS ---------------- */
+let sQuery='', sCat='All';
+function renderScripts(){
+  const cats=['All'].concat([...new Set(NICHES.map(n=>n.cat))]);
+  const q=sQuery.toLowerCase();
+  const list=NICHES.filter(n=>(sCat==='All'||n.cat===sCat)&&(!q||(n.niche+' '+n.cat+' '+n.pain).toLowerCase().includes(q)));
+  $('app').innerHTML=
+  '<div class="view-title">Outbound Scripts <span class="hint">'+NICHES.length+' niches</span></div>'
+  +'<div class="row" style="margin-bottom:10px">'
+    +'<button class="btn primary" style="flex:1" onclick="openUniversal()">🌐 Universal templates</button>'
+    +'<button class="btn ghost" style="flex:1" onclick="openEmails()">✉️ Email + objections</button>'
+  +'</div>'
+  +'<input class="search" placeholder="Search a niche or pain point…" value="'+esc(sQuery)+'" oninput="sQuery=this.value;renderScripts()">'
+  +'<div class="chips">'+cats.map(c=>'<button class="chipbtn'+(sCat===c?' on':'')+'" onclick="sCat=\''+esc(c)+'\';renderScripts()">'+esc(c)+'</button>').join('')+'</div>'
+  +'<div class="card" style="padding:12px"><p class="lead" style="margin:0;font-size:12.5px">💡 How to send: 10–20/day, personalize the {…} blanks, reply within 5 min, log every lead in Clients. Never pitch in the first message.</p></div>'
+  +(list.length?list.map(n=>{
+      const idx=NICHES.indexOf(n);
+      return '<div class="card" style="padding:12px 14px;cursor:pointer" onclick="openNiche('+idx+')">'
+      +'<div class="item" style="border:none;padding:0"><div class="dot" style="background:rgba(253,237,2,.2)">📣</div>'
+      +'<div class="mid"><div class="t">'+esc(n.niche)+'</div><div class="s">'+esc(n.cat)+' · '+esc(n.pain)+'</div></div>'
+      +'<span style="color:var(--dim);font-size:18px">›</span></div></div>';
+    }).join(''):'<div class="empty">No niche matches.</div>');
+}
+function scriptBlock(label,text,idx,part){
+  return '<div class="card" style="background:var(--card2);padding:12px;margin-bottom:10px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><span style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">'+label+'</span><button class="btn sm ghost" onclick="copyNichePart('+idx+',\''+part+'\')">Copy</button></div><div style="font-size:14px;line-height:1.5">'+esc(text)+'</div></div>';
+}
+function openNiche(idx){
+  const n=NICHES[idx]; if(!n)return;
+  openModal(
+    '<div class="head"><div class="t">📣 '+esc(n.niche)+'</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<div class="row" style="margin-bottom:12px"><span class="chip pro">'+esc(n.cat)+'</span><span class="chip ok">Packs: '+esc(n.packs)+'</span></div>'
+    +'<p class="lead" style="margin:0 0 4px;color:var(--dim)">Pain point</p><p style="margin:0 0 14px;font-size:14px">'+esc(n.pain)+'</p>'
+    +scriptBlock('1 · Opener (first DM)',n.opener,idx,'opener')
+    +scriptBlock('2 · Pitch (after they reply)',n.pitch,idx,'pitch')
+    +scriptBlock('3 · CTA (the ask)',n.cta,idx,'cta')
+    +scriptBlock('4 · Follow-up (48h)',n.followup,idx,'followup')
+    +'<button class="btn primary block" onclick="copyNicheAll('+idx+')">📋 Copy full sequence</button>'
+    +'</div>'
+  );
+}
+function copyNichePart(idx,part){
+  const n=NICHES[idx];
+  copyRaw(part==='opener'?n.opener:part==='pitch'?n.pitch:part==='cta'?n.cta:n.followup);
+}
+function copyNicheAll(idx){
+  const n=NICHES[idx];
+  const L=[];
+  L.push('OUTBOUND SEQUENCE — '+n.niche.toUpperCase());
+  L.push('');
+  L.push('1) OPENER'); L.push(n.opener);
+  L.push('');
+  L.push('2) PITCH'); L.push(n.pitch);
+  L.push('');
+  L.push('3) CTA'); L.push(n.cta);
+  L.push('');
+  L.push('4) FOLLOW-UP (48H)'); L.push(n.followup);
+  L.push('');
+  L.push('PACKS TO PITCH: '+n.packs);
+  copyRaw(L.join('\n'));
+}
+function openUniversal(){
+  openModal(
+    '<div class="head"><div class="t">🌐 Universal templates</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<p class="lead" style="margin:0 0 12px;color:var(--muted);font-size:13px">Fill the {…} blanks with the prospect\'s real details before sending.</p>'
+    +UNIVERSAL.map((u,i)=>'<div class="card" style="background:var(--card2);padding:12px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:8px"><span style="font-weight:800;font-size:13.5px">'+esc(u.name)+'</span><button class="btn sm ghost" onclick="copyUniversal('+i+')">Copy</button></div><div style="font-size:14px;line-height:1.5">'+esc(u.body)+'</div></div>').join('')
+    +'</div>'
+  );
+}
+function copyUniversal(i){copyRaw(UNIVERSAL[i].body);}
+function openEmails(){
+  const m=EMAILS.map((e,i)=>'<div class="card" style="background:var(--card2);padding:12px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span style="font-weight:800;font-size:13px">Subject: '+esc(e.subject)+'</span><button class="btn sm ghost" onclick="copyEmail('+i+')">Copy</button></div><div style="font-size:14px;line-height:1.5">'+esc(e.body)+'</div></div>').join('');
+  const o=OBJECTIONS.map((ob,i)=>'<div class="card" style="background:var(--card2);padding:12px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span style="font-weight:800;font-size:13px">'+esc(ob.name)+'</span><button class="btn sm ghost" onclick="copyObjection('+i+')">Copy</button></div><div style="font-size:14px;line-height:1.5">'+esc(ob.body)+'</div></div>').join('');
+  openModal(
+    '<div class="head"><div class="t">✉️ Cold email + objections</div><button class="x" onclick="closeModal()">✕</button></div>'
+    +'<div class="body">'
+    +'<h3 style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:4px 0 8px">Cold emails</h3>'+m
+    +'<h3 style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 8px">Objection replies</h3>'+o
+    +'</div>'
+  );
+}
+function copyEmail(i){const e=EMAILS[i];copyRaw('Subject: '+e.subject+'\n\n'+e.body);}
+function copyObjection(i){copyRaw(OBJECTIONS[i].body);}
+
+/* ---------------- PDF EXPORT ---------------- */
+/*==PDF_EXPORT_START==*/
+function sanitizePDF(s){
+  s=String(s==null?'':s);
+  const map={'—':'-','–':'-','’':"'",'‘':"'",'“':'"','”':'"','•':'-','…':'...','✓':'[x]','✔':'[x]','★':'*','→':'->','·':'-','\u00A0':' ','é':'e','è':'e','ê':'e','ë':'e','á':'a','à':'a','â':'a','ã':'a','ä':'a','å':'a','í':'i','ì':'i','î':'i','ï':'i','ó':'o','ò':'o','ô':'o','õ':'o','ö':'o','ú':'u','ù':'u','û':'u','ü':'u','ñ':'n','ç':'c','ý':'y','ÿ':'y','ø':'o','œ':'oe','æ':'ae','ß':'ss'};
+  return s.replace(/[^\x20-\x7E]/g,function(ch){return map[ch]!==undefined?map[ch]:'';}).replace(/([\\()])/g,'\\$1');
+}
+function _blen(s){ if(typeof TextEncoder!=='undefined'){return new TextEncoder().encode(s).length;} return s.length; }
+function _pad10(n){ var s=String(n); while(s.length<10)s='0'+s; return s; }
+function wrap(s,maxc){
+  var out=[]; var parts=String(s).split('\n');
+  for(var i=0;i<parts.length;i++){
+    var p=parts[i];
+    if(p.length<=maxc){out.push(p);continue;}
+    var words=p.split(' '), cur2='';
+    for(var j=0;j<words.length;j++){
+      var w=words[j];
+      if(cur2.length+w.length+1>maxc){out.push(cur2);cur2=w;}else{cur2=cur2?cur2+' '+w:w;}
+    }
+    if(cur2)out.push(cur2);
+  }
+  return out;
+}
+function buildReportPDF(d){
+  var PAGES=[], cur=[], y=748;
+  var W=612, ML=48, CW=W-ML*2;
+  function page(){ cur=[]; PAGES.push(cur); y=748; }
+  function raw(o){ cur.push(o); }
+  function room(h){ if(y-h<54) page(); }
+  function line(str,x,size,font,color,lh){
+    if(x==null)x=ML; if(size==null)size=10; if(font==null)font='F1'; if(color==null)color='0 0 0';
+    if(lh==null)lh=Math.round(size*1.42*10)/10;
+    room(lh);
+    raw(color+' rg BT /'+font+' '+size+' Tf '+x+' '+y+' Td ('+sanitizePDF(str)+') Tj ET');
+    y-=lh;
+  }
+  function h1(t){ line(String(t).toUpperCase(),ML,17,'F2','0.42 0.36 0.91',22); }
+  function h2(t){ line(t,ML,12,'F2','0.05 0.55 0.75',18); }
+  function rule(){ raw('0.85 0.87 0.93 rg '+ML+' '+(y-2)+' '+CW+' 1 re f'); y-=10; }
+  function trunc(s,maxc){ s=sanitizePDF(s); if(s.length<=maxc)return s; return s.slice(0,maxc-1)+'~'; }
+  function cell(s,x,w,size,font,color){ var mc=Math.max(6,Math.floor(w/(size*0.53))); line(trunc(s,mc),x,size,font,color); }
+  function statusColor(s){
+    s=String(s).toLowerCase();
+    if(s==='active'||s==='client'||s==='ok')return '0.15 0.62 0.4';
+    if(s==='error')return '0.86 0.22 0.34';
+    if(s==='paused'||s==='lead')return '0.83 0.54 0.1';
+    return '0 0 0';
+  }
+  function kpiRow(aL,aV,bL,bV){
+    var base=y;
+    line(aL+':',ML,9,'F1','0.45 0.48 0.55',12);
+    line(String(aV),ML,13,'F2','0 0 0',16);
+    line(bL+':',ML+280,9,'F1','0.45 0.48 0.55',12);
+    line(String(bV),ML+280,13,'F2','0 0 0',16);
+    y=base-30;
+  }
+  function table(headers,rows,widths){
+    var x,i,r,c;
+    function drawHead(){
+      x=ML;
+      for(i=0;i<headers.length;i++){ cell(headers[i],x,widths[i],9,'F2','0.35 0.38 0.5'); x+=widths[i]; }
+      y-=3; rule();
+    }
+    drawHead();
+    for(r=0;r<rows.length;r++){
+      if(y<58){ page(); drawHead(); }
+      x=ML; var row=rows[r];
+      for(c=0;c<row.length;c++){
+        var col=row[c];
+        cell(col.t,x,widths[c],9,col.bold?'F2':'F1',col.color||'0 0 0');
+        x+=widths[c];
+      }
+      y-=2;
+    }
+  }
+  page();
+  h1(d.name);
+  line(d.tag+'   ·   '+d.date+'   ·   '+d.owner,ML,10,'F3','0.45 0.48 0.55',15);
+  y-=8; rule();
+  h2('Key metrics');
+  kpiRow('Monthly recurring revenue', d.mrr, 'Collected this month', d.month);
+  kpiRow('Active clients', d.activeClients, 'Active automations', d.activeAutos);
+  kpiRow('Open leads', d.leads, 'Open tasks', d.openTasks);
+  y-=6;
+  h2('Clients ('+d.clients.length+')');
+  table(['Name','Business','Type','Plan','Status','Joined'],
+    d.clients.map(function(c){return [{t:c.name},{t:c.biz},{t:c.type},{t:c.plan},{t:c.status,color:statusColor(c.status)},{t:c.joined}];}),
+    [118,132,82,70,54,60]);
+  y-=6;
+  h2('Subscriptions ('+d.subs.length+')');
+  table(['Client','Plan','Price','Status','Next','Method'],
+    d.subs.map(function(s){return [{t:s.client},{t:s.plan},{t:s.price},{t:s.status,color:statusColor(s.status)},{t:s.next},{t:s.method}];}),
+    [140,90,60,55,70,101]);
+  y-=6;
+  h2('Automations ('+d.autos.length+')');
+  table(['Client','Pack','Status','Last run'],
+    d.autos.map(function(a){return [{t:a.client},{t:a.pack},{t:a.status,color:statusColor(a.status)},{t:a.last}];}),
+    [150,200,60,106]);
+  y-=6;
+  if(d.pay.length){
+    h2('Payments ('+d.pay.length+')');
+    table(['Client','Amount','Date','Method'],
+      d.pay.map(function(p){return [{t:p.client},{t:'$'+p.amount},{t:p.date},{t:p.method}];}),
+      [186,100,100,130]);
+    y-=6;
+  }
+  if(d.summary){
+    h2('Daily summary');
+    var lines=wrap(d.summary,95);
+    for(var li=0;li<lines.length;li++){ line(lines[li],ML,9,'F3','0.2 0.22 0.3',12); }
+  }
+  var total=PAGES.length;
+  for(var p=0;p<PAGES.length;p++){
+    cur=PAGES[p];
+    raw('0.72 0.75 0.84 rg BT /F1 8 Tf '+ML+' 32 Td ('+sanitizePDF(d.name+' — generated '+d.date)+') Tj ET');
+    raw('0.72 0.75 0.84 rg BT /F1 8 Tf '+(W-ML-70)+' 32 Td (Page '+(p+1)+' / '+total+') Tj ET');
+  }
+  var nP=PAGES.length;
+  var objs=[];
+  objs.push('<< /Type /Catalog /Pages 2 0 R >>');
+  var kids=[]; for(var k=0;k<nP;k++){ kids.push((6+k)+' 0 R'); }
+  objs.push('<< /Type /Pages /Count '+nP+' /Kids ['+kids.join(' ')+'] >>');
+  objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+  objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>');
+  objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>');
+  for(var pi=0;pi<nP;pi++){
+    var csId=6+nP+pi;
+    objs.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents '+csId+' 0 R >>');
+  }
+  for(var si=0;si<nP;si++){
+    var content=PAGES[si].join('\n');
+    objs.push('<< /Length '+_blen(content)+' >>\nstream\n'+content+'\nendstream');
+  }
+  var out='%PDF-1.4\n';
+  var offs=new Array(objs.length+1); for(var oi=0;oi<offs.length;oi++)offs[oi]=0;
+  for(var bi=0;bi<objs.length;bi++){ offs[bi+1]=_blen(out); out+=(bi+1)+' 0 obj\n'+objs[bi]+'\nendobj\n'; }
+  var xref=_blen(out);
+  out+='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
+  for(var xi=0;xi<objs.length;xi++){ out+=_pad10(offs[xi+1])+' 00000 n \n'; }
+  out+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF';
+  return out;
+}
+/*==PDF_EXPORT_END==*/
+function reportData(){
+  const wk=today().slice(0,7);
+  const pay=[];
+  S.clients.forEach(c=>c.payments.forEach(p=>pay.push({client:c.name,amount:p.amount,date:p.date,method:p.method})));
+  pay.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  return {
+    name:S.settings.name, tag:S.settings.tag, owner:S.settings.owner,
+    date:new Date().toLocaleDateString([],{year:'numeric',month:'long',day:'numeric'}),
+    mrr:'$'+mrr().toLocaleString(), month:'$'+monthRevenue().toLocaleString(),
+    activeClients:String(S.clients.filter(c=>c.status==='client').length),
+    activeAutos:String(activeAutos()), leads:String(S.clients.filter(c=>c.status==='lead').length),
+    openTasks:String(openTasks()),
+    clients:S.clients.map(c=>({name:c.name,biz:c.business,type:c.type,plan:c.plan?planName(c.plan):'—',status:c.status==='client'?'Client':'Lead',joined:c.joined})),
+    subs:S.subscriptions.map(s=>({client:(clientById(s.clientId)||{}).name||'—',plan:planName(s.plan),price:'$'+s.price,status:s.status,next:s.next,method:s.method})),
+    autos:S.automations.map(a=>({client:(clientById(a.clientId)||{}).name||'—',pack:(packById(a.packId)||{}).name||a.packId,status:a.status,last:a.lastRun})),
+    pay:pay.slice(0,40),
+    summary:S.summary&&S.summary.text?S.summary.text:''
+  };
+}
+function downloadPDF(){
+  try{
+    const txt=buildReportPDF(reportData());
+    const blob=new Blob([txt],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download='247_Intel_Systems_Report_'+today()+'.pdf';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },900);
+    toast('PDF download started');
+  }catch(e){ toast('Export failed — try Print / Save as PDF'); }
+}
+function printHTML(){
+  const d=reportData();
+  function tbl(rows){return '<table style="border-collapse:collapse;width:100%;font-size:11px;margin:6px 0">'+rows.map(r=>'<tr>'+r.map(c=>'<td style="border:1px solid #ccc;padding:4px 6px">'+esc(c)+'</td>').join('')+'</tr>').join('')+'</table>';}
+  const h='<h1 style="font-size:20px;margin:0">'+esc(d.name)+'</h1><p style="color:#666;margin:4px 0">'+esc(d.tag)+' · '+esc(d.date)+' · '+esc(d.owner)+'</p>';
+  const kpis='<p style="margin:8px 0"><b>MRR:</b> '+esc(d.mrr)+' &nbsp; <b>This month:</b> '+esc(d.month)+' &nbsp; <b>Active clients:</b> '+esc(d.activeClients)+' &nbsp; <b>Automations:</b> '+esc(d.activeAutos)+' &nbsp; <b>Leads:</b> '+esc(d.leads)+'</p>';
+  const clientRows=[['Name','Business','Type','Plan','Status','Joined']].concat(d.clients.map(c=>[c.name,c.biz,c.type,c.plan,c.status,c.joined]));
+  const subRows=[['Client','Plan','Price','Status','Next','Method']].concat(d.subs.map(s=>[s.client,s.plan,s.price,s.status,s.next,s.method]));
+  const autoRows=[['Client','Pack','Status','Last run']].concat(d.autos.map(a=>[a.client,a.pack,a.status,a.last]));
+  const payRows=[['Client','Amount','Date','Method']].concat(d.pay.map(p=>[p.client,'$'+p.amount,p.date,p.method]));
+  return h+kpis
+    +'<h2 style="font-size:14px;margin:16px 0 4px">Clients</h2>'+tbl(clientRows)
+    +'<h2 style="font-size:14px;margin:16px 0 4px">Subscriptions</h2>'+tbl(subRows)
+    +'<h2 style="font-size:14px;margin:16px 0 4px">Automations</h2>'+tbl(autoRows)
+    +(d.pay.length?'<h2 style="font-size:14px;margin:16px 0 4px">Payments</h2>'+tbl(payRows):'')
+    +(d.summary?'<h2 style="font-size:14px;margin:16px 0 4px">Daily summary</h2><pre style="font-size:11px;white-space:pre-wrap">'+esc(d.summary)+'</pre>':'');
+}
+function printPDF(){
+  const html='<!doctype html><html><head><meta charset="utf-8"><title>24/7 Intel Systems Report</title><style>body{font-family:Helvetica,Arial,sans-serif;color:#111;padding:24px}</style></head><body>'+printHTML()+'</body></html>';
+  const ifr=document.createElement('iframe');
+  ifr.style.position='fixed'; ifr.style.right='0'; ifr.style.bottom='0'; ifr.style.width='0'; ifr.style.height='0'; ifr.style.border='0';
+  document.body.appendChild(ifr);
+  const idoc=ifr.contentWindow.document;
+  idoc.open(); idoc.write(html); idoc.close();
+  setTimeout(function(){
+    try{ ifr.contentWindow.focus(); ifr.contentWindow.print(); }
+    catch(e){ toast('Print blocked in this view — open the app file on your phone'); }
+    setTimeout(function(){ ifr.remove(); },60000);
+  },400);
+}
+
+/* ---------------- backup / restore ---------------- */
+function exportJSON(){
+  try{
+    const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download='247_intel_backup_'+today()+'.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },900);
+    toast('Backup downloaded');
+  }catch(e){ toast('Backup failed — try on your phone browser'); }
+}
+function importJSON(){
+  const inp=document.createElement('input');
+  inp.type='file'; inp.accept='.json,application/json';
+  inp.onchange=function(){
+    const f=inp.files&&inp.files[0]; if(!f)return;
+    const rd=new FileReader();
+    rd.onload=function(){
+      try{
+        const p=JSON.parse(rd.result);
+        if(!p||!p.settings) throw new Error('invalid');
+        S=p; save(); render(); toast('Backup restored');
+      }catch(e){ toast('Invalid backup file'); }
+    };
+    rd.readAsText(f);
+  };
+  inp.click();
+}
+
+/* ---------------- boot ---------------- */
+load();
+document.body.insertAdjacentHTML('beforeend','<textarea id="copyBuf" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true"></textarea>');
+render();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3b1cb6e698b4603',t:'MTc4OTQxNDEwNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
