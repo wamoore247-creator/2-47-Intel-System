@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04030c">
+<title>24/7 Intel Systems — Automation · Systems · Security · AI</title>
+<style>
+  :root{
+    --ink:#04030c; --ink2:#070a18; --card:#0e1430; --card2:#131b40;
+    --border:#1e2852; --border2:#2b376b;
+    --text:#f4f6ff; --muted:#9aa4c6; --dim:#68749a;
+    --yellow:#fded02; --orange:#fc6901; --cyan:#05b2ff; --blue:#044df8; --red:#f50230;
+    --grad:linear-gradient(135deg,#fded02 0%,#fc6901 100%);
+    --r:18px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--ink); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(253,237,2,.3);}
+  img,svg{display:block;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+  section{padding:64px 0;}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(4,3,12,.86); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .bar{display:flex; align-items:center; gap:12px; padding:12px 20px; max-width:1080px; margin:0 auto;}
+  .logo{width:38px; height:38px; flex:0 0 auto; border-radius:10px; box-shadow:0 4px 16px rgba(252,105,1,.45);}
+  .brand{flex:1; min-width:0;}
+  .brand b{display:block; font-size:15px; letter-spacing:.2px; white-space:nowrap;}
+  .brand span{display:block; font-size:10.5px; color:var(--muted); letter-spacing:.6px; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  nav .links{display:none; gap:22px; font-size:14px; color:var(--muted);}
+  nav .links a{color:var(--muted); text-decoration:none; font-weight:600;}
+  nav .links a:hover{color:var(--text);}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border:none; border-radius:12px; padding:12px 20px; font-size:15px; font-weight:800;
+    cursor:pointer; text-decoration:none; transition:transform .07s ease, box-shadow .15s;
+    font-family:inherit;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn.yellow{background:var(--grad); color:#04030c; box-shadow:0 8px 26px rgba(252,105,1,.38);}
+  .btn.ghost{background:transparent; color:var(--text); border:1.5px solid var(--border2);}
+  .btn.ghost:hover{border-color:var(--cyan);}
+  .btn.sm{padding:9px 15px; font-size:13.5px; border-radius:10px;}
+  .btn.block{width:100%;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:56px 0 72px; position:relative; overflow:hidden;}
+  .hero::before{
+    content:""; position:absolute; top:-160px; right:-120px; width:520px; height:520px;
+    background:radial-gradient(circle, rgba(252,105,1,.28), transparent 60%);
+  }
+  .hero::after{
+    content:""; position:absolute; bottom:-200px; left:-140px; width:520px; height:520px;
+    background:radial-gradient(circle, rgba(5,178,255,.18), transparent 60%);
+  }
+  .hero .grid{display:grid; grid-template-columns:1fr; gap:40px; position:relative; z-index:2;}
+  @media(min-width:900px){ .hero .grid{grid-template-columns:1.05fr .95fr; align-items:center;} }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:11.5px; font-weight:800;
+    letter-spacing:2.5px; text-transform:uppercase; color:var(--yellow);
+    border:1px solid rgba(253,237,2,.35); background:rgba(253,237,2,.07);
+    padding:6px 14px; border-radius:30px; margin-bottom:20px;
+  }
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--yellow); box-shadow:0 0 10px var(--yellow);}
+  h1{font-size:clamp(30px, 6.2vw, 52px); line-height:1.08; margin:0 0 18px; letter-spacing:-1px; font-weight:800;}
+  h1 .grad{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p.sub{font-size:clamp(16px, 2.4vw, 19px); color:var(--muted); margin:0 0 26px; max-width:540px;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:22px;}
+  .trust{display:flex; flex-wrap:wrap; gap:18px; font-size:13px; color:var(--dim);}
+  .trust span{display:inline-flex; align-items:center; gap:7px;}
+  .trust .t{color:var(--cyan); font-size:15px;}
+
+  /* ---------- hero mock feed ---------- */
+  .mock{position:relative; background:var(--card); border:1px solid var(--border2); border-radius:22px; padding:18px; box-shadow:0 30px 70px rgba(0,0,0,.55);}
+  .mock .head{display:flex; align-items:center; gap:10px; padding-bottom:14px; border-bottom:1px solid var(--border); margin-bottom:6px;}
+  .mock .head .pill{font-size:11px; font-weight:800; letter-spacing:1.5px; color:var(--dim); text-transform:uppercase; margin-left:auto;}
+  .mock .live{width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px var(--cyan); animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .feed{display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-bottom:1px solid var(--border);}
+  .feed:last-child{border-bottom:none;}
+  .feed .ic{width:34px; height:34px; flex:0 0 auto; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:15px;}
+  .ic.c{background:rgba(5,178,255,.15);} .ic.y{background:rgba(253,237,2,.16);} .ic.o{background:rgba(252,105,1,.18);}
+  .feed .t{font-size:13.5px; font-weight:700;}
+  .feed .s{font-size:12px; color:var(--dim); margin-top:1px;}
+  .feed .time{margin-left:auto; font-size:11px; color:var(--dim); white-space:nowrap;}
+
+  /* ---------- stat band ---------- */
+  .stats{background:var(--ink2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .stats .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:26px; padding:44px 0;}
+  @media(min-width:760px){ .stats .grid{grid-template-columns:repeat(4,1fr);} }
+  .stat .v{font-size:clamp(26px,4vw,36px); font-weight:800; letter-spacing:-1px; color:var(--yellow);}
+  .stat .l{font-size:13px; color:var(--muted); margin-top:4px;}
+  .stat .src{font-size:10.5px; color:var(--dim); margin-top:6px;}
+
+  /* ---------- generic section ---------- */
+  .kicker{font-size:12px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); margin-bottom:12px;}
+  h2{font-size:clamp(24px,4.4vw,36px); letter-spacing:-.5px; margin:0 0 14px; font-weight:800;}
+  .lead{color:var(--muted); font-size:16.5px; max-width:680px; margin:0 0 34px;}
+  .grid3{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:760px){ .grid3{grid-template-columns:repeat(3,1fr);} }
+  .card{background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:24px;}
+  .card .ic{width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:14px; background:rgba(253,237,2,.12);}
+  .card h3{font-size:17px; margin:0 0 8px;}
+  .card p{color:var(--muted); font-size:14.5px; margin:0;}
+
+  /* ---------- services ---------- */
+  .svcs{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:760px){ .svcs{grid-template-columns:repeat(2,1fr);} }
+  @media(min-width:1000px){ .svcs{grid-template-columns:repeat(3,1fr);} }
+  .svc{background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:22px; position:relative; transition:border-color .15s;}
+  .svc:hover{border-color:var(--cyan);}
+  .svc.flag{border:1.5px solid var(--orange);}
+  .svc .flag-tag{position:absolute; top:-11px; right:14px; background:var(--grad); color:#04030c; font-size:10.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; padding:4px 10px; border-radius:20px;}
+  .svc .e{font-size:24px; margin-bottom:10px;}
+  .svc h3{font-size:16px; margin:0 0 6px;}
+  .svc p{color:var(--muted); font-size:13.5px; margin:0 0 12px;}
+  .svc .meta{display:flex; gap:8px; align-items:center;}
+  .chip{font-size:10.5px; font-weight:800; padding:3px 10px; border-radius:20px; letter-spacing:.5px; text-transform:uppercase;}
+  .chip.b{background:rgba(5,178,255,.15); color:var(--cyan);}
+  .chip.p{background:rgba(253,237,2,.16); color:var(--yellow);}
+  .chip.f{background:rgba(252,105,1,.18); color:var(--orange);}
+
+  /* ---------- how it works ---------- */
+  .steps{display:grid; grid-template-columns:1fr; gap:14px; counter-reset:s;}
+  @media(min-width:760px){ .steps{grid-template-columns:repeat(4,1fr);} }
+  .step{background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:24px; position:relative;}
+  .step .n{width:34px; height:34px; border-radius:10px; background:var(--grad); color:#04030c; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+  .step h3{font-size:15.5px; margin:0 0 7px;}
+  .step p{color:var(--muted); font-size:13.5px; margin:0;}
+
+  /* ---------- pricing ---------- */
+  .plans{display:grid; grid-template-columns:1fr; gap:16px; align-items:stretch;}
+  @media(min-width:900px){ .plans{grid-template-columns:repeat(3,1fr);} }
+  .plan{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; display:flex; flex-direction:column;}
+  .plan.pop{background:linear-gradient(180deg, rgba(253,237,2,.07), var(--card) 55%); border:1.5px solid var(--orange); position:relative;}
+  .plan.pop::before{content:"MOST POPULAR"; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--grad); color:#04030c; font-size:10.5px; font-weight:800; letter-spacing:1px; padding:4px 14px; border-radius:20px;}
+  .plan h3{font-size:17px; margin:0 0 4px;}
+  .plan .desc{color:var(--muted); font-size:13px; margin:0 0 18px;}
+  .plan .price{font-size:34px; font-weight:800; letter-spacing:-1px;}
+  .plan .price span{font-size:14px; color:var(--muted); font-weight:600; letter-spacing:0;}
+  .plan .setup{font-size:12.5px; color:var(--dim); margin:2px 0 18px;}
+  .plan ul{list-style:none; margin:0 0 22px; padding:0; flex:1;}
+  .plan li{font-size:14px; color:var(--text); padding:7px 0 7px 26px; position:relative;}
+  .plan li::before{content:"✓"; position:absolute; left:0; color:var(--cyan); font-weight:800;}
+
+  /* ---------- proof ---------- */
+  .metrics{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:760px){ .metrics{grid-template-columns:repeat(3,1fr);} }
+  .metric{background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:24px;}
+  .metric .k{font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); margin-bottom:10px;}
+  .metric .v{font-size:28px; font-weight:800; color:var(--yellow); letter-spacing:-.5px;}
+  .metric p{color:var(--muted); font-size:13.5px; margin:8px 0 0;}
+
+  /* ---------- faq ---------- */
+  .faq{max-width:760px; margin:0 auto;}
+  details{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin-bottom:10px;}
+  summary{cursor:pointer; font-weight:700; font-size:15.5px; list-style:none; display:flex; justify-content:space-between; align-items:center;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+"; color:var(--yellow); font-size:22px; font-weight:400;}
+  details[open] summary::after{content:"–";}
+  details p{color:var(--muted); font-size:14.5px; margin:12px 0 0;}
+
+  /* ---------- lead form ---------- */
+  .cta{background:linear-gradient(180deg, var(--ink2), var(--ink)); border-top:1px solid var(--border);}
+  .cta .box{background:var(--card); border:1px solid var(--border2); border-radius:24px; padding:34px 26px; display:grid; grid-template-columns:1fr; gap:34px;}
+  @media(min-width:900px){ .cta .box{grid-template-columns:1fr 1fr; padding:44px;} }
+  .cta h2{margin-bottom:10px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; margin-bottom:6px;}
+  .field input,.field select,.field textarea{
+    width:100%; background:var(--ink2); border:1px solid var(--border); border-radius:12px;
+    padding:13px 14px; color:var(--text); outline:none; font-family:inherit; font-size:15px;
+  }
+  .field input:focus,.field select:focus{border-color:var(--cyan);}
+  .note{font-size:12.5px; color:var(--dim); margin:10px 0 0;}
+  .success{display:none; background:rgba(5,178,255,.1); border:1px solid rgba(5,178,255,.4); border-radius:14px; padding:18px; margin-top:16px;}
+  .success .t{font-weight:800; color:var(--cyan); margin-bottom:6px;}
+  .success p{font-size:13.5px; color:var(--text); margin:0 0 12px;}
+  .benefits{display:flex; flex-direction:column; gap:14px;}
+  .benefit{display:flex; gap:13px; align-items:flex-start;}
+  .benefit .ic{width:36px; height:36px; flex:0 0 auto; border-radius:10px; background:rgba(253,237,2,.12); display:flex; align-items:center; justify-content:center; font-size:16px;}
+  .benefit b{display:block; font-size:14.5px;}
+  .benefit span{font-size:13px; color:var(--muted);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink2); border-top:1px solid var(--border); padding:48px 0 60px;}
+  footer .grid{display:grid; grid-template-columns:1fr; gap:28px;}
+  @media(min-width:760px){ footer .grid{grid-template-columns:2fr 1fr 1fr;} }
+  footer .tag{color:var(--muted); font-size:14px; max-width:340px; margin-top:12px;}
+  footer h4{font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:var(--dim); margin:0 0 14px;}
+  footer a{display:block; color:var(--muted); text-decoration:none; font-size:14px; padding:4px 0;}
+  footer a:hover{color:var(--yellow);}
+  .footline{margin-top:34px; padding-top:20px; border-top:1px solid var(--border); font-size:12.5px; color:var(--dim); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;}
+  .divs{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .divs span{font-size:11px; font-weight:700; letter-spacing:.6px; color:var(--muted); border:1px solid var(--border); padding:5px 11px; border-radius:20px;}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav>
+  <div class="bar">
+    <div class="logo" id="navLogo"></div>
+    <div class="brand"><b>24/7 Intel Systems</b><span>Automation · Systems · Security · AI</span></div>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="btn yellow sm" href="#audit">Free audit</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Always on. Always watching. Always responding.</div>
+      <h1>Your business runs on repeat. <span class="grad">We automate the repeat.</span></h1>
+      <p class="sub">We build the automations that run your invoices, follow-ups, reminders, and scheduling — then we monitor them 24/7. You never chase a client, an invoice, or a no-show again.</p>
+      <div class="cta-row">
+        <a class="btn yellow" href="#audit">Get your free automation audit →</a>
+        <a class="btn ghost" href="#how">See how it works</a>
+      </div>
+      <div class="trust">
+        <span><span class="t">✓</span> 48-hour setup</span>
+        <span><span class="t">✓</span> From $49/mo</span>
+        <span><span class="t">✓</span> No contracts</span>
+        <span><span class="t">✓</span> Cancel anytime</span>
+      </div>
+    </div>
+
+    <div class="mock">
+      <div class="head">
+        <span class="live"></span>
+        <span style="font-weight:800; font-size:14px">24/7 Automation Feed</span>
+        <span class="pill">Live</span>
+      </div>
+      <div class="feed"><div class="ic c">🧾</div><div><div class="t">Invoice sent</div><div class="s">Okafor HVAC · #1042 · $1,850</div></div><div class="time">9:01 AM</div></div>
+      <div class="feed"><div class="ic y">💰</div><div><div class="t">Payment received</div><div class="s">Mitchell Photo · +$1,200</div></div><div class="time">8:47 AM</div></div>
+      <div class="feed"><div class="ic c">⏰</div><div><div class="t">Reminder confirmed</div><div class="s">Appointment tomorrow · 2:00 PM</div></div><div class="time">8:15 AM</div></div>
+      <div class="feed"><div class="ic o">🔁</div><div><div class="t">Follow-up sent</div><div class="s">Cruz Cleaning · quote #2</div></div><div class="time">7:58 AM</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STATS ================= -->
+<div class="stats">
+  <div class="wrap grid">
+    <div class="stat"><div class="v">59%</div><div class="l">of small businesses carry 30-day-overdue invoices</div><div class="src">Intuit QuickBooks, 2026</div></div>
+    <div class="stat"><div class="v">$17.7K</div><div class="l">the average amount owed in late invoices</div><div class="src">Intuit QuickBooks, 2026</div></div>
+    <div class="stat"><div class="v">5+ hrs</div><div class="l">lost every week to manual invoicing & follow-ups</div><div class="src">FreshBooks, 2026</div></div>
+    <div class="stat"><div class="v">74%</div><div class="l">of businesses don't have automated invoicing</div><div class="src">Intuit QuickBooks, 2026</div></div>
+  </div>
+</div>
+
+<!-- ================= PROBLEM / SOLUTION ================= -->
+<section>
+  <div class="wrap">
+    <div class="kicker">The busywork tax</div>
+    <h2>You're losing money you can't see.</h2>
+    <p class="lead">Leads you don't answer fast enough. Invoices you forget to send. Appointments that no-show. Follow-ups you're too polite to make. It's 5–10 hours a week — quietly gone.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">📉</div><h3>Slow leads die</h3><p>The first business to reply usually wins the job. Manual follow-up means leads going cold before you call back.</p></div>
+      <div class="card"><div class="ic">🧾</div><h3>Unpaid work stacks up</h3><p>Late invoices cost the average business ~$39,400 a year. And nobody enjoys being the one who has to ask.</p></div>
+      <div class="card"><div class="ic">⏰</div><h3>No-shows drain the week</h3><p>Every missed appointment is a paid hour that evaporated. A simple reminder recovers most of them.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOLUTION ================= -->
+<section id="solution" style="background:var(--ink2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="kicker">The fix</div>
+    <h2>We build it. We run it. You forget it.</h2>
+    <p class="lead">We don't sell you tools — we ARE the outcome. Built in 48 hours, monitored around the clock, fixed before you notice.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">🛠️</div><h3>1 · We build</h3><p>Your workflows, installed in 48 hours on the apps you already use. Zero tech skills needed from you.</p></div>
+      <div class="card"><div class="ic">👁️</div><h3>2 · We monitor 24/7</h3><p>Constant watch with instant alerts. If something breaks, we fix it — usually before you even see it.</p></div>
+      <div class="card"><div class="ic">💰</div><h3>3 · You get paid</h3><p>Invoices go out on time, reminders happen, leads get answered. You get your time and your money back.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="wrap">
+    <div class="kicker">Services</div>
+    <h2>What we run for you</h2>
+    <p class="lead">Six battle-tested automation packs. Start with one, stack them as you grow.</p>
+    <div class="svcs">
+      <div class="svc flag"><div class="flag-tag">Most requested</div><div class="e">🧾</div><h3>Invoice Auto-Sender</h3><p>Job done → invoice generated, sent, and followed up automatically. Paid faster, no awkward asks.</p><div class="meta"><span class="chip p">Pro</span></div></div>
+      <div class="svc"><div class="e">🤖</div><h3>Lead Follow-Up Bot</h3><p>New lead → instant welcome, booked call, and a 5-touch follow-up until they say yes.</p><div class="meta"><span class="chip b">Basic</span></div></div>
+      <div class="svc"><div class="e">⏰</div><h3>Client Reminder System</h3><p>Appointment reminders + confirmations. No-shows drop fast.</p><div class="meta"><span class="chip b">Basic</span></div></div>
+      <div class="svc"><div class="e">📊</div><h3>Daily Summary Automation</h3><p>One message every morning: your calendar, messages, tasks, and sales.</p><div class="meta"><span class="chip p">Pro</span></div></div>
+      <div class="svc"><div class="e">🗓️</div><h3>Auto-Scheduler</h3><p>Clients request a time → availability checked, booked, and confirmed automatically.</p><div class="meta"><span class="chip f">Full</span></div></div>
+      <div class="svc"><div class="e">👥</div><h3>Mobile CRM Lite</h3><p>Every client, note, automation, and payment in one live profile.</p><div class="meta"><span class="chip f">Full</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how" style="background:var(--ink2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2>Live in four steps</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Intake (5 min)</h3><p>Tell us what leaks: invoices, leads, reminders, scheduling. From your phone.</p></div>
+      <div class="step"><div class="n">2</div><h3>Payment</h3><p>Setup fee + first month, before we build. Transparent, no surprises.</p></div>
+      <div class="step"><div class="n">3</div><h3>We build (48h)</h3><p>Your automation goes live on the tools you already use.</p></div>
+      <div class="step"><div class="n">4</div><h3>We monitor 24/7</h3><p>Error alerts, monthly check-ins, and same-day fixes. Always on.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="kicker">Pricing</div>
+    <h2>Simple, flat, and it pays for itself</h2>
+    <p class="lead">Every plan includes setup, 24/7 monitoring, and support. One-time setup fee + monthly subscription.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Basic</h3><p class="desc">For getting the leaks under control.</p>
+        <div class="price">$49<span>/mo</span></div>
+        <div class="setup">$99 one-time setup</div>
+        <ul>
+          <li>2 automation packs</li>
+          <li>Lead Follow-Up Bot</li>
+          <li>Client Reminder System</li>
+          <li>Mobile CRM access</li>
+          <li>24/7 monitoring + support</li>
+        </ul>
+        <a class="btn ghost block" href="#audit">Start with Basic</a>
+      </div>
+      <div class="plan pop">
+        <h3>Pro</h3><p class="desc">The full revenue engine.</p>
+        <div class="price">$99<span>/mo</span></div>
+        <div class="setup">$199 one-time setup</div>
+        <ul>
+          <li>5 automation packs</li>
+          <li>Everything in Basic</li>
+          <li>Invoice Auto-Sender</li>
+          <li>Daily Summary Automation</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn yellow block" href="#audit">Start with Pro</a>
+      </div>
+      <div class="plan">
+        <h3>Full Suite</h3><p class="desc">Hands-free operations.</p>
+        <div class="price">$199<span>/mo</span></div>
+        <div class="setup">$399 one-time setup</div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Auto-Scheduler</li>
+          <li>Advanced CRM Lite</li>
+          <li>Unlimited clients</li>
+          <li>Same-day setup</li>
+        </ul>
+        <a class="btn ghost block" href="#audit">Start with Full Suite</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROOF ================= -->
+<section style="background:var(--ink2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="kicker">What you'll measure</div>
+    <h2>We report the numbers that matter</h2>
+    <p class="lead">Every month you'll see exactly what your automations did — in dollars and hours, not jargon.</p>
+    <div class="metrics">
+      <div class="metric"><div class="k">Cash recovered</div><div class="v">$1,200+</div><p>In overdue invoices pulled back within the first 30 days, on average.</p></div>
+      <div class="metric"><div class="k">No-shows</div><div class="v">−40%</div><p>Typical drop in missed appointments once reminders + confirmations go live.</p></div>
+      <div class="metric"><div class="k">Lead response</div><div class="v">&lt; 2 min</div><p>First reply speed. The business that answers first usually wins the job.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap faq">
+    <div class="kicker">FAQ</div>
+    <h2 style="text-align:center">Straight answers</h2>
+    <div style="margin-top:28px">
+      <details open><summary>Is this for a business my size?</summary><p>Yes — especially yours. The smaller the business, the bigger the share of your week this frees up. If you run on repeat tasks, we can automate them.</p></details>
+      <details><summary>Do I need to change my software?</summary><p>No. We build on the apps you already use — email, texts, calendar, QuickBooks, whatever your stack is. No migrations, no learning curve.</p></details>
+      <details><summary>What if it breaks?</summary><p>We monitor everything 24/7 and get an instant alert the moment something fails. Most issues are fixed before you ever notice them.</p></details>
+      <details><summary>How fast is setup?</summary><p>48 hours for most packs. Full Suite gets same-day setup.</p></details>
+      <details><summary>Is my data safe?</summary><p>We only connect what's needed for the workflow, we never sell or share your data, and you can pull your data out anytime.</p></details>
+      <details><summary>What if I want to cancel?</summary><p>Cancel anytime, no contracts, no exit fees. You keep everything we built.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LEAD FORM ================= -->
+<section class="cta" id="audit">
+  <div class="wrap">
+    <div class="box">
+      <div>
+        <div class="kicker">Free automation audit</div>
+        <h2>Find out what's leaking — in 10 minutes.</h2>
+        <p class="lead" style="margin-bottom:22px">Tell us about your business and we'll show you the 2–3 places you're losing time or money — free, no pressure, no spam.</p>
+        <div class="benefits">
+          <div class="benefit"><div class="ic">🎯</div><div><b>Specific, not generic</b><span>We audit your actual workflow, not a template.</span></div></div>
+          <div class="benefit"><div class="ic">📱</div><div><b>Done from your phone</b><span>10 minutes, on your schedule.</span></div></div>
+          <div class="benefit"><div class="ic">🔒</div><div><b>No obligation</b><span>Keep the findings either way.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <form id="leadForm" onsubmit="return submitLead(event)">
+          <div class="field"><label>Your name</label><input id="fName" required placeholder="Jane Doe"></div>
+          <div class="field"><label>Business name</label><input id="fBiz" required placeholder="Doe Landscaping"></div>
+          <div class="field"><label>Business type</label>
+            <select id="fType">
+              <optgroup label="Home & field services">
+                <option>Lawn care / landscaping</option><option>HVAC & plumbing</option>
+                <option>Cleaning services</option><option>Roofing & contractors</option>
+                <option>Electricians</option><option>Auto detailing</option>
+                <option>Pest control</option><option>Home inspectors</option>
+              </optgroup>
+              <optgroup label="Health & beauty">
+                <option>Salon / barbershop</option><option>Nail / lash / brow studio</option>
+                <option>Med spa / esthetician</option><option>Personal trainer / gym</option>
+                <option>Chiro / physio</option><option>Dental / ortho</option>
+              </optgroup>
+              <optgroup label="Professional services">
+                <option>Real estate</option><option>Mortgage / lending</option>
+                <option>Legal</option><option>Insurance</option><option>Accounting / bookkeeping</option><option>Coaching / consulting</option>
+              </optgroup>
+              <optgroup label="Retail, food & e-commerce">
+                <option>Restaurant / cafe</option><option>Food truck / catering</option>
+                <option>E-commerce / boutique</option>
+              </optgroup>
+              <optgroup label="Other"><option>Other</option></optgroup>
+            </select>
+          </div>
+          <div class="field"><label>Phone or email</label><input id="fContact" required placeholder="(740) 555-0000 or jane@doe.com"></div>
+          <div class="field"><label>What's costing you the most?</label>
+            <select id="fPain">
+              <option>Unpaid invoices & late payments</option>
+              <option>No-shows & missed appointments</option>
+              <option>Slow lead follow-up</option>
+              <option>Scheduling & booking</option>
+              <option>All of the above</option>
+            </select>
+          </div>
+          <button class="btn yellow block" type="submit">Get my free audit →</button>
+          <p class="note">No spam. No obligation. You keep the findings either way.</p>
+        </form>
+
+        <div class="success" id="success">
+          <div class="t">✓ Lead captured</div>
+          <p id="successMsg"></p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px">
+            <button class="btn ghost sm" onclick="copyLead()">📋 Copy lead details</button>
+            <button class="btn ghost sm" onclick="emailLead()">✉️ Email it to me</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div style="display:flex; align-items:center; gap:12px">
+          <div class="logo" id="footLogo"></div>
+          <b style="font-size:17px">24/7 Intel Systems</b>
+        </div>
+        <p class="tag">Always on. Always watching. Always responding. We build and run the automations, systems, security, and AI that keep your business moving — so you don't have to.</p>
+        <div class="divs"><span>Automation</span><span>Systems</span><span>Security</span><span>AI</span></div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#services">Services</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#audit">Free audit</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="#audit">Book a free audit</a>
+        <a href="#faq">FAQ</a>
+        <a href="#solution">Why 24/7</a>
+      </div>
+    </div>
+    <div class="footline">
+      <span>© 2026 24/7 Intel Systems. All rights reserved.</span>
+      <span>Made to run from a phone. Built to scale.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   24/7 INTEL SYSTEMS — Landing page
+   Single file. No libraries. Lead form feeds the Mobile OS app
+   (same localStorage key) when both run on the same device.
+   ============================================================ */
+
+/* ---------------- logo ---------------- */
+function logoSVG(size){
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="lg'+size+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fded02"/><stop offset="1" stop-color="#fc6901"/></linearGradient></defs>'
+    +'<rect x="2" y="2" width="44" height="44" rx="12" fill="url(#lg'+size+')"/>'
+    +'<path d="M27.5 7 13.5 27.5h7l-2.5 13.5 14-20.5h-7z" fill="#04030c"/></svg>';
+}
+document.getElementById('navLogo').innerHTML = logoSVG(38);
+document.getElementById('footLogo').innerHTML = logoSVG(38);
+
+/* ---------------- storage (defensive: works in sandboxed previews too) ---------------- */
+var LS_KEY = 'maa_mobile_os_v1';
+function storage(){
+  try{ return window.localStorage; }catch(e){ return null; }
+}
+function todayISO(){
+  var d = new Date();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var day = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear()+'-'+m+'-'+day;
+}
+function rand(prefix){ return prefix + Math.random().toString(36).slice(2,8); }
+
+/* ---------------- lead -> app integration ---------------- */
+var lastLead = null;
+
+function submitLead(e){
+  e.preventDefault();
+  var name = document.getElementById('fName').value.trim();
+  var biz  = document.getElementById('fBiz').value.trim();
+  var type = document.getElementById('fType').value;
+  var contact = document.getElementById('fContact').value.trim();
+  var pain = document.getElementById('fPain').value;
+
+  lastLead = { name:name, biz:biz, type:type, contact:contact, pain:pain };
+
+  var saved = false;
+  var store = storage();
+  if (store){
+    try{
+      var S = null;
+      var raw = store.getItem(LS_KEY);
+      if (raw){ var p = JSON.parse(raw); if (p && p.settings){ S = p; } }
+      if (!S){
+        S = {
+          settings:{
+            name:'24/7 Intel Systems', tag:'Automation \u00b7 Systems \u00b7 Security \u00b7 AI', owner:'Wesley',
+            welcome:'Hey {name}! Thanks for joining 24/7 Intel Systems. I\u2019m setting up your automation pack now \u2014 you\u2019ll receive your workflow file shortly.',
+            delivery:'Your automation pack is ready, {name}. Install the attached workflow and follow the instructions. Message me if you need help.',
+            followup:'Just checking in, {name} \u2014 is your automation working smoothly? Want to add another workflow?',
+            onboardingDone:[0,1,2]
+          },
+          clients:[], subscriptions:[], automations:[], notifications:[], tasks:[], events:[],
+          summary:{text:'',date:null}, revenue:[]
+        };
+      }
+      S.clients = S.clients || [];
+      S.clients.push({
+        id:rand('c'), name:name, business:biz, type:type, email:contact, phone:contact,
+        needs:pain, status:'lead', plan:null, joined:todayISO(), source:'Website', notes:[], payments:[]
+      });
+      S.notifications = S.notifications || [];
+      S.notifications.unshift({
+        id:rand('n'), kind:'lead', icon:'\ud83d\udc4b',
+        text:'New lead \u2014 '+name+' ('+biz+') via website.', time:'just now', read:false
+      });
+      store.setItem(LS_KEY, JSON.stringify(S));
+      saved = true;
+    }catch(err){ saved = false; }
+  }
+
+  var msg;
+  if (saved){
+    msg = 'Saved to your 24/7 Intel Systems app \u2014 check the Clients tab. It\u2019ll be waiting for you in the lead queue.';
+  } else {
+    msg = 'Got it \u2014 ' + name + '. Use the buttons below to copy the lead or email it to yourself, then add it to your app\u2019s Clients tab.';
+  }
+  document.getElementById('successMsg').textContent = msg;
+  document.getElementById('success').style.display = 'block';
+  document.getElementById('leadForm').style.display = 'none';
+  return false;
+}
+
+function copyLead(){
+  if (!lastLead) return;
+  var text = 'NEW LEAD \u2014 24/7 Intel Systems\n'
+    + 'Name: '+lastLead.name+'\n'
+    + 'Business: '+lastLead.biz+'\n'
+    + 'Type: '+lastLead.type+'\n'
+    + 'Contact: '+lastLead.contact+'\n'
+    + 'Pain: '+lastLead.pain+'\n'
+    + 'Source: Website';
+  var ok = false;
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text); ok = true;
+    }
+  }catch(e){ ok = false; }
+  if (!ok){
+    try{
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); ok = document.execCommand('copy'); ta.remove();
+    }catch(e){ ok = false; }
+  }
+  alert(ok ? 'Lead copied \u2014 paste it into your app\u2019s Clients tab.' : text);
+}
+
+function emailLead(){
+  if (!lastLead) return;
+  var body = 'Name: '+lastLead.name+'%0D%0A'
+    + 'Business: '+lastLead.biz+'%0D%0A'
+    + 'Type: '+lastLead.type+'%0D%0A'
+    + 'Contact: '+lastLead.contact+'%0D%0A'
+    + 'Pain: '+lastLead.pain;
+  window.location.href = 'mailto:?subject=New%20lead%20%E2%80%94%20'+encodeURIComponent(lastLead.biz)+'&body='+body;
+}
+</script>
+</body>
+</html>
